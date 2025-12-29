@@ -1,19 +1,20 @@
-
 // Include theming for Angular Material with `mat.theme()`.
 // This Sass mixin will define CSS variables that are used for styling Angular Material
 // components according to the Material 3 design spec.
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 html {
   height: 97%;
   width: 100%;
-    color-scheme: light dark;
-  @include mat.theme((
-    color: mat.$violet-palette,
-    typography: Roboto,
-    density: 0
-  ));
+  color-scheme: light dark;
+  @include mat.theme(
+    (
+      color: mat.$violet-palette,
+      typography: Roboto,
+      density: 0
+    )
+  );
 }
 
 body {
@@ -27,37 +28,39 @@ body {
   // variables at https://material.angular.dev/guide/system-variables
   background-color: black;
   color: oklch(86.267% 0.23186 140.858);
-  font: 'Cyberspace', 'Orbitron', 'monospace';
+  font: "Cyberspace", "Orbitron", "monospace";
   padding-left: 8px;
 
   // Reset the user agent margin.
   margin: 0;
   height: 97%;
 }
-*, *::before, *::after {
-  font-family: 'Cyberspace', 'Orbitron', 'monospace' !important;
+*,
+*::before,
+*::after {
+  font-family: "Cyberspace", "Orbitron", "monospace" !important;
   color: oklch(86.267% 0.23186 140.858);
 }
 /* You can add global styles to this file, and also import other style files */
-.create-tabletop-match-dialog-panel{
+.create-tabletop-match-dialog-panel {
   resize: both;
   overflow: auto;
-    background-color: black;
+  background-color: black;
   width: 90vw !important;
-border: 1px solid greenyellow;
-  max-width: 90vw;// width: 1200px;
-    height: 85vh;
+  border: 1px solid greenyellow;
+  max-width: 90vw; // width: 1200px;
+  height: 85vh;
 }
 .cdk-overlay-pane.mat-mdc-dialog-panel {
-    background-color: black;
+  background-color: black;
   max-width: 90vw !important; /* Example: Make it 90% of viewport width */
   /* min-width: 300px !important; */ /* Or set a min-width */
 }
-  .mat-mdc-dialog-container {
-    resize: both;
-    overflow: auto;
-    background-color: black;
-      width: 90vw !important;
-      max-width: 90vw;// width: 1200px;
-      height: 85vh;
-  }
+.mat-mdc-dialog-container {
+  resize: both;
+  overflow: auto;
+  background-color: black;
+  width: 90vw !important;
+  max-width: 90vw; // width: 1200px;
+  height: 85vh;
+}

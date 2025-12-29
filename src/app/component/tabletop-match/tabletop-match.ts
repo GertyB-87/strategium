@@ -97,4 +97,8 @@ export class TabletopMatchComponent {
       console.log(`Reset match round to ${this.match.round}`);
     }
   }
+  currentTime() {
+    const now = new Date();
+    return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
 }
