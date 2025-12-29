@@ -1,15 +1,22 @@
 <header class="top-nav">
-    <nav class="nav-row" style="font-family: 'Cyberspace', 'Orbitron', 'monospace'; font-size: 1.25rem; letter-spacing: 0.1em; color: #00ffe7; text-shadow: 0 0 4px #00ffe7, 0 0 8px #222;display: flex; justify-content: center; gap: 2rem; margin: 5px 0;">
-        <span style="font-family: 'Cyberspace', 'Orbitron', 'monospace'; font-size: 1.8rem; letter-spacing: 0.1em; color: hsl(138, 100%, 50%); text-shadow: 0 0 4px #00ffe7, 0 0 8px #222; margin-right: auto;" aria-label="Cyberspace logo">
+    <nav class="nav-row"
+        style="font-family: 'Cyberspace', 'Orbitron', 'monospace'; font-size: 1.25rem; letter-spacing: 0.1em; color: #00ffe7; text-shadow: 0 0 4px #00ffe7, 0 0 8px #222;display: flex; justify-content: center; gap: 2rem; margin: 5px 0;">
+        <span
+            style="font-family: 'Cyberspace', 'Orbitron', 'monospace'; font-size: 1.8rem; letter-spacing: 0.1em; color: hsl(138, 100%, 50%); text-shadow: 0 0 4px #00ffe7, 0 0 8px #222; margin-right: auto; cursor: pointer;"
+            aria-label="Cyberspace logo" (click)="router.navigate(['/'])" tabindex="0" role="link"
+            (keydown)="($event.key === 'Enter' || $event.key === ' ') && router.navigate(['/'])">
             Strategium
         </span>
-        <div style="display: flex; justify-content: center; align-items: flex-end; gap: 3rem; flex: 1; width: 100%; padding-right: 22vh;">
-            <a href="/" style="text-decoration: none; color: inherit;">
-            Home
-            </a>
-            <a href="/tabletop-match" style="text-decoration: none; color: inherit;">
-            Tabletop Match
-            </a>
+        <div
+            style="display: flex; justify-content: center; align-items: flex-end; gap: 3rem; flex: 1; width: 100%; padding-right: 22vh;">
+            <span (click)="router.navigate(['/'])" tabindex="0" role="link"
+                style="text-decoration: none; color: lightseagreen; cursor: pointer;">
+               Home
+            </span>
+            <span (click)="router.navigate(['/tabletop-match'])" tabindex="0" role="link"
+                style="text-decoration: none; color: lightseagreen; cursor: pointer;">
+                Tabletop Match
+            </span>
         </div>
     </nav>
     <hr style="border: none; border-top: 1px solid #222; margin: 0 0 5px 0; height: 0;" aria-hidden="true" />
