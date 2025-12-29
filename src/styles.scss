@@ -49,12 +49,14 @@ border: 1px solid greenyellow;
     height: 85vh;
 }
 .cdk-overlay-pane.mat-mdc-dialog-panel {
+    background-color: black;
   max-width: 90vw !important; /* Example: Make it 90% of viewport width */
   /* min-width: 300px !important; */ /* Or set a min-width */
 }
   .mat-mdc-dialog-container {
     resize: both;
     overflow: auto;
+    background-color: black;
       width: 90vw !important;
       max-width: 90vw;// width: 1200px;
       height: 85vh;
