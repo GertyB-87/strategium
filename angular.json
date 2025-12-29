@@ -45,6 +45,7 @@
                   "type": "initial",
                   "maximumWarning": "500kB",
                   "maximumError": "1MB"
+                  
                 },
                 {
                   "type": "anyComponentStyle",
@@ -57,7 +58,8 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fonts": false
             }
           },
           "defaultConfiguration": "production"

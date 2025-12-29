@@ -1,0 +1,7 @@
+{
+  "routes": {
+    "/strategium": {},
+    "/strategium/home": {},
+    "/strategium/tabletop-match": {}
+  }
+}
