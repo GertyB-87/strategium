@@ -7,7 +7,8 @@
 html {
   height: 97%;
   width: 100%;
-  color-scheme: light dark;
+  /* Force a dark color scheme for the entire app */
+  color-scheme: dark;
   @include mat.theme(
     (
       color: mat.$violet-palette,
@@ -19,15 +20,14 @@ html {
 
 body {
   // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: dark light;
+  // Application is fixed to dark mode. Do not defer to system settings.
+  color-scheme: dark;
 
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these
   // variables at https://material.angular.dev/guide/system-variables
-  background-color: black;
-  color: oklch(86.267% 0.23186 140.858);
+  background-color: #0b0b0b;
+  color: #e6e6e6;
   font: "Cyberspace", "Orbitron", "monospace";
   padding-left: 8px;
 
@@ -46,12 +46,12 @@ body {
   resize: both;
   overflow: auto;
   width: 90vw !important;
-  border: 1px solid greenyellow;
+  //border: 1px solid greenyellow;
   max-width: 90vw; // width: 1200px;
   height: 85vh;
 }
 .cdk-overlay-pane.mat-mdc-dialog-panel {
-  background-color: black;
+  //background-color: black;
   max-width: 90vw !important; /* Example: Make it 90% of viewport width */
   /* min-width: 300px !important; */ /* Or set a min-width */
 }

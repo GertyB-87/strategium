@@ -3,9 +3,9 @@
     <form [formGroup]="matchForm" (ngSubmit)="onSubmit()"  class="create-tabletop-match-dialog">
         <p><i>Create new Match!</i></p>
 
-        <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-form-field appearance="fill" style="width: 100%; ">
             <mat-label>Match Name</mat-label>
-            <input matInput formControlName="name" />
+            <input matInput formControlName="name"/>
         </mat-form-field>
         <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 8px;">
             <h2 style="margin: 0;">Players</h2>
