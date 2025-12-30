@@ -45,7 +45,6 @@ body {
 .create-tabletop-match-dialog-panel {
   resize: both;
   overflow: auto;
-  background-color: black;
   width: 90vw !important;
   border: 1px solid greenyellow;
   max-width: 90vw; // width: 1200px;
@@ -59,7 +58,6 @@ body {
 .mat-mdc-dialog-container {
   resize: both;
   overflow: auto;
-  background-color: black;
   width: 90vw !important;
   max-width: 90vw; // width: 1200px;
   height: 85vh;
