@@ -6,44 +6,44 @@
 <div class="current-time-overlay" [ngClass]="{'is-phone': isPhone}" aria-live="polite" aria-label="Current time">
     {{ duration }}
 </div>
-<span class="match-name-title" [ngClass]="{'is-phone': isPhone}">{{ match?.name }}</span>
+<span class="match-name-title" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}">{{ match?.name }}</span>
 <p class="match-created-title" [ngClass]="{'is-phone': isPhone}">{{ match?.createdAt ? (match.createdAt | date:'yyyy-MM-dd
     HH:mm':'UTC') : '' }}</p>
-<div class="round-display-container" [ngClass]="{'is-phone': isPhone}" aria-label="Current round" (click)="changeRound()" tabindex="0" role="button"
+<div class="round-display-container" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}" aria-label="Current round" (click)="changeRound()" tabindex="0" role="button"
     aria-pressed="false">
-    <span class="round-display-label" [ngClass]="{'is-phone': isPhone}">round</span>
-    <span class="round-display-value" [ngClass]="{'is-phone': isPhone}" aria-live="polite">{{
+    <span class="round-display-label" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}">round</span>
+    <span class="round-display-value" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}" aria-live="polite">{{
         match?.round }}</span>
 </div>
 <div class="players-wrapper" [ngClass]="{'is-phone': isPhone}" role="main" aria-label="Match players">
     <div class="players-container" [ngClass]="{'is-phone': isPhone}" role="region" aria-label="Players information">
         @for (player of match?.players; track playerIndex; let playerIndex = $index) {
-        <div class="player-card" [ngClass]="{'is-phone': isPhone}" aria-label="Player {{ player.name }}">
-            <span class="player-name-label" [ngClass]="{'is-phone': isPhone}" title="{{ player.name }}" aria-label="Player name: {{ player.name }}">{{
+        <div class="player-card" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}" aria-label="Player {{ player.name }}">
+            <span class="player-name-label" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}" title="{{ player.name }}" aria-label="Player name: {{ player.name }}">{{
                 player.name }}</span>
-            <span class="player-faction-label" [ngClass]="{'is-phone': isPhone}">{{
+            <span class="player-faction-label" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}">{{
                 player.faction }}</span>
-            <div class="player-stats-wrapper" [ngClass]="{'is-phone': isPhone}">
-                <div class="player-cp-wrapper" [ngClass]="{'is-phone': isPhone}" aria-label="Command Points">
-                    <button type="button" class="player-cp-decrease-button" [ngClass]="{'is-phone': isPhone}" aria-label="Decrease command points"
-                        (click)="changePlayerValue('commandPoints', playerIndex, -1)" tabindex="0">-</button>
-                    <div class="player-cp-container" [ngClass]="{'is-phone': isPhone}">
-                        <span class="player-cp-label" [ngClass]="{'is-phone': isPhone}">CP</span>
-                        <span class="player-cp-value" [ngClass]="{'is-phone': isPhone}" aria-live="polite">{{
+            <div class="player-stats-wrapper" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}">
+                <div class="player-wrapper2" [ngClass]="{'is-phone': isPhone}" aria-label="Command Points">
+                    <button type="button" class="player-button2" [ngClass]="{'is-phone': isPhone}" aria-label="Decrease command points"
+                            (click)="changePlayerValue('commandPoints', playerIndex, -1)" tabindex="0">-</button>
+                    <div class="player-container2" [ngClass]="{'is-phone': isPhone}">
+                        <span class="player-label2" [ngClass]="{'multiplayer': numberOfPlayers > 4}">CP</span>
+                        <span class="player-value2" [ngClass]="{'multiplayer': numberOfPlayers > 4}" aria-live="polite">{{
                             player.currentCommandPoints}}</span>
                     </div>
-                    <button type="button" class="player-cp-increase-button" [ngClass]="{'is-phone': isPhone}" aria-label="Increase command points"
-                        (click)="changePlayerValue('commandPoints', playerIndex, 1)" tabindex="0">+</button>
+                    <button type="button" class="player-button2" [ngClass]="{'is-phone': isPhone}" aria-label="Increase command points"
+                            (click)="changePlayerValue('commandPoints', playerIndex, 1)" tabindex="0">+</button>
                 </div>
-                <div class="player-cp-wrapper" [ngClass]="{'is-phone': isPhone}" aria-label="Command Points">
-                    <button type="button" class="player-cp-decrease-button" [ngClass]="{'is-phone': isPhone}" aria-label="Decrease command points"
+                <div class="player-wrapper2" [ngClass]="{'is-phone': isPhone}" aria-label="Victory Points">
+                    <button type="button" class="player-button2" [ngClass]="{'is-phone': isPhone}" aria-label="Decrease command points"
                         (click)="changePlayerValue('victoryPoints', playerIndex, -1)" tabindex="0">-</button>
-                    <div class="player-cp-container" [ngClass]="{'is-phone': isPhone}">
-                        <span class="player-cp-label" [ngClass]="{'is-phone': isPhone}">VP</span>
-                        <span class="player-cp-value" [ngClass]="{'is-phone': isPhone}" aria-live="polite">{{
+                    <div class="player-container2" [ngClass]="{'is-phone': isPhone}">
+                        <span class="player-label2" [ngClass]="{'multiplayer': numberOfPlayers > 4}">VP</span>
+                        <span class="player-value2" [ngClass]="{'multiplayer': numberOfPlayers > 4}" aria-live="polite">{{
                             player.currentVictoryPoints }}</span>
                     </div>
-                    <button type="button" class="player-cp-increase-button" [ngClass]="{'is-phone': isPhone}" aria-label="Increase command points"
+                    <button type="button" class="player-button2" [ngClass]="{'is-phone': isPhone}" aria-label="Increase command points"
                         (click)="changePlayerValue('victoryPoints', playerIndex, 1)" tabindex="0">+</button>
                 </div>
             </div>
@@ -69,7 +69,7 @@
 
 <a>
     <button class="match-reset-button" aria-label="End Match" (click)="resetMatch()" tabindex="0"
-        [ngClass]="{'is-phone': isPhone}">
+        [ngClass]="{'is-phone': isPhone || numberOfPlayers > 12}">
         reset match
     </button>
 </a>

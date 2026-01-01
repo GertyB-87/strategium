@@ -39,6 +39,9 @@ export class TabletopMatchComponent implements OnDestroy, OnInit {
   isSmallScreen = false;
   isPhone: boolean = false;
   isTablet: boolean = false;
+  isLarge: boolean = false;
+  isExraLarge: boolean = false;
+
 
   constructor(private responsive: BreakpointObserver) {
 
@@ -87,6 +90,18 @@ export class TabletopMatchComponent implements OnDestroy, OnInit {
       .subscribe(result => {
         this.isTablet = result.matches;
         console.log('isTablet (inside):', this.isTablet);
+
+      });
+      this.responsive.observe(Breakpoints.Large)
+      .subscribe(result => {
+        this.isLarge = result.matches;
+        console.log('Large (inside):', result.matches);
+
+      });
+      this.responsive.observe(Breakpoints.XLarge)
+      .subscribe(result => {
+        this.isExraLarge = result.matches;
+        console.log('XLarge (inside):', result.matches);
 
       });
   }

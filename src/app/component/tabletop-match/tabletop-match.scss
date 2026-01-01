@@ -25,6 +25,11 @@
     padding: 0;
     font-size: 1.5rem;
 }
+.match-name-title.multiplayer {
+    margin: 0;
+    padding: 0;
+    font-size: 2rem;
+}
 
 .match-created-title {
     text-align: center;
@@ -56,11 +61,19 @@
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
     cursor: pointer;
 }
+
 .round-display-container.is-phone {
     width: 3rem;
     height: 3rem;
     top: 0.5rem;
     right: 0.5rem;
+    border-radius: 5px;
+}
+.round-display-container.multiplayer {
+    width: 5rem;
+    height: 5rem;
+    top: 1rem;
+    right: 1em;
     border-radius: 5px;
 }
 
@@ -70,9 +83,14 @@
     margin-top: 0.625rem;
     letter-spacing: 0.05em;
 }
+
 .round-display-label.is-phone {
     font-size: 0.5rem;
     margin-top: 0.25rem;
+}
+.round-display-label.multiplayer {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
 }
 
 .round-display-value {
@@ -81,9 +99,14 @@
     line-height: 1;
     margin-top: 0.625rem;
 }
+
 .round-display-value.is-phone {
     font-size: 1.5rem;
     margin-top: 0.15rem;
+}
+.round-display-value.multiplayer {
+    font-size: 2.5rem;
+    margin-top: 0.4rem;
 }
 
 .players-wrapper {
@@ -91,23 +114,37 @@
 }
 
 .players-container {
-    margin-top: 0.7rem;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
+    flex: 0 0 25%; 
     gap: 1rem;
     width: 100%;
+}
+
+.players-container.is-phone {
+    gap: 0rem;
 }
 
 .player-card {
     flex: 1 1 0;
     display: flex;
     flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
     align-items: center;
+    align-content: center;
     padding: 1rem 0;
     gap: 0.2rem;
 }
+
 .player-card.is-phone {
+    padding: 0;
+    gap: 0.1rem;
+}
+
+.player-card.multiplayer {
     padding: 0;
     gap: 0.1rem;
 }
@@ -116,20 +153,40 @@
     font-size: x-large;
     font-weight: bold;
     text-align: center;
+      white-space: nowrap;
+      padding: 0rem 0.1rem 0rem 0.1rem ;
 }
+
 .player-name-label.is-phone {
     font-size: medium;
+}
+.player-name-label.multiplayer {
+    font-size: large;
 }
 
 .player-faction-label {
     color: #b0b0b0;
     font-size: 1rem;
+  white-space: nowrap;
     align-items: center;
     text-align: center;
     font-style: italic;
 }
+
 .player-faction-label.is-phone {
     font-size: 0.65rem;
+    max-width: 12ch;        /* ca. 12 Zeichen */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-faction-label.multiplayer {
+    font-size: 0.65rem;
+    max-width: 12ch;        /* ca. 12 Zeichen */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .player-stats-wrapper {
@@ -137,84 +194,80 @@
     flex-direction: column;
     gap: 1.5rem;
     margin-top: 4px;
+    width: 90%;
+    
 }
+
 .player-stats-wrapper.is-phone {
     gap: 1rem;
     margin-top: 2px;
 }
 
-.player-cp-wrapper {
+.player-wrapper2 {
     display: flex;
+    background-color: #444;
     flex-direction: row;
-    align-items: center;
+    flex-wrap: nowrap;
     justify-content: center;
-    background: #333;
-    border-radius: 10px;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.10);
-    width: 22vw;
-    max-width: 100%;
-    height: 20vh;
-    gap: 0.5rem;
-}
-.player-cp-wrapper.is-phone {
-    width: 40vw;
-    height: 10vh;
-    gap: 0.2rem;
+    align-items: center;
+    align-content: center;
+    border-radius: 5px;
 }
 
-.player-cp-container {
+.player-wrapper2.is-phone {
+}
+
+.player-container2 {
+    flex: 1 1 1%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 20%;
     display: flex;
     flex-direction: column;
+    flex-wrap: nowrap;
     align-items: center;
-    justify-content: center;
-    width: 9.5vw;
-    height: 100%;
-    background: #444;
-    border-radius: 0;
+    align-content: center;
 }
 
-.player-cp-label {
-    font-size: 0.875rem;
+.player-label2 {
     color: #b0b0b0;
-    letter-spacing: 0.04em;
-}
-.player-cp-label.is-phone {
-    font-size: 0.5rem;
 }
 
-.player-cp-value {
-    font-size: 11vh;
-    color: rgb(6, 115, 232);
-    font-weight: bold;
-    line-height: 1;
+.player-label2.is-phone {
+    font-size: 0.6rem;
+    z-index: 200;
 }
-.player-cp-value.is-phone {
+
+.player-value2 {
+    color: rgb(6, 115, 232);
+    font-size: 11vh;
+}
+
+.player-value2.multiplayer {
     font-size: 5vh;
 }
 
-.player-cp-decrease-button,
-.player-cp-increase-button {
-
-    width: 25%;
+.player-button2 {
+    flex: 1 1 1%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 1%;
     height: 100%;
-    background: transparent;
-    border: none;
     color: #c8ff00;
-    font-size: 11vh;
+    font-size: 9vh;
     cursor: pointer;
-    border-radius: 10px 0 0 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border: 0;
+    background-color: #333;
+    border-radius: 8px;
 }
-.player-cp-decrease-button.is-phone {
-    border-radius: 0 10px 10px 0;
-    width: 50px;
-}
-.player-cp-increase-button.is-phone {
-    border-radius: 0 10px 10px 0;
-    width: 50px;
-}
+.player-button2.multiplayer {
+    font-size: 4vh;
+}   
+
+//################################################
+
+
+
 .match-footer-wrapper {
     margin-top: auto;
     width: 100%;
