@@ -42,6 +42,7 @@ export class TabletopMatchComponent implements OnDestroy, OnInit {
   isLarge: boolean = false;
   isExraLarge: boolean = false;
 
+  readonly router = inject(Router);
 
   constructor(private responsive: BreakpointObserver) {
 
@@ -52,6 +53,10 @@ export class TabletopMatchComponent implements OnDestroy, OnInit {
       //console.log('Retrieved match from localStorage:', storedMatch);
       if (storedMatch) {
         this.match = storedMatch;
+      }
+      else {
+        console.warn('No match found in navigation state or localStorage. Redirecting to home.');
+        this.router.navigate(['/']);
       }
     }
     if (this.match) {

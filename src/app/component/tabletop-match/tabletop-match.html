@@ -36,7 +36,7 @@
                         (click)="changePlayerValue('victoryPoints', playerIndex, -1)" tabindex="0">-</button>
                     <div class="player-container2" [ngClass]="{'is-phone': isPhone}">
                         <span class="player-label2" [ngClass]="{'multiplayer': numberOfPlayers > 4}">VP</span>
-                        <span class="player-value2" [ngClass]="{'multiplayer': numberOfPlayers > 4}" aria-live="polite">{{
+                        <span class="player-value2" [ngClass]="{'multiplayer': numberOfPlayers > 4}" style="color: rgba(255, 0, 255, 0.888)" aria-live="polite">{{
                             player.currentVictoryPoints }}</span>
                     </div>
                     <button type="button" class="player-button2" [ngClass]="{'is-phone': isPhone}" aria-label="Increase command points"
