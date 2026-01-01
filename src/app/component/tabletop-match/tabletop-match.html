@@ -1,8 +1,4 @@
-@if (isPhonePortrait) {
-<div class="hint-landscape-wrapper" aria-label="hint landscape">
-    <p class="hint-landscape-text">For the best experience, please rotate your device to landscape mode.</p>
-</div>
-} @if (!isPhonePortrait) {
+
 <div class="current-time-overlay" [ngClass]="{'is-phone': isPhone}" aria-live="polite" aria-label="Current time">
     {{ duration }}
 </div>
@@ -73,4 +69,3 @@
         reset match
     </button>
 </a>
-}

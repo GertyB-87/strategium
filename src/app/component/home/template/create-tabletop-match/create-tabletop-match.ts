@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatFormFieldModule, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,13 +17,14 @@ import {
 } from "@angular/forms";
 import { inject } from '@angular/core';
 import { TableTopMatch } from '../../../../data/tabletop-match';
-import { JsonPipe } from '@angular/common';
+import { JsonPipe, NgClass } from '@angular/common';
 import { FUNNY_FACTIONS, FUNNY_MATCH_NAMES, FUNNY_NAMES } from '../../../../data/funny-names';
 import { MatIcon } from '@angular/material/icon';
 import { CdkAriaLive } from "../../../../../../node_modules/@angular/cdk/types/_a11y-module-chunk";
 import { MatAutocompleteTrigger, MatAutocomplete } from "@angular/material/autocomplete";
 import { MatOption } from "@angular/material/core";
 import { Router } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 type MatchStatus = TableTopMatch['status'];
 const MATCH_STATUSES: MatchStatus[] = ['pending', 'ongoing', 'completed'];
@@ -49,19 +50,33 @@ type MatchForm = FormGroup<{
     ReactiveFormsModule,
     MatFormField,
     MatDialogTitle,
-      MatAutocompleteTrigger,
-      MatAutocomplete,
-      MatOption,
-      MatLabel
+    MatAutocompleteTrigger,
+    MatAutocomplete,
+    MatOption,
+    MatLabel,
+    NgClass,
 ],
   templateUrl: './create-tabletop-match.html',
   styleUrl: './create-tabletop-match.scss',
 })
-export class CreateTabletopMatch {
+export class CreateTabletopMatch implements OnInit {
   private fb = inject(NonNullableFormBuilder);
   readonly dialogRef = inject(MatDialogRef<CreateTabletopMatch>);
   private router = inject(Router);
   FUNNY_FACTIONS = FUNNY_FACTIONS;
+  isPhone: boolean = false;
+
+  constructor(private responsive: BreakpointObserver) {
+  }
+
+  ngOnInit(): void {
+    this.responsive.observe(Breakpoints.Handset)
+      .subscribe(result => {
+        this.isPhone = result.matches;
+        console.log('isPhone (inside):', this.isPhone);
+
+      });
+  }
 
   matchForm: MatchForm = this.fb.group({
     name: [this.chooseRandomMatchName()],
@@ -77,7 +92,7 @@ export class CreateTabletopMatch {
     return playerForm;
   }
 
-updateCommandPoints(index: number, points: number): void {
+  updateCommandPoints(index: number, points: number): void {
     const playerControl = this.matchForm.controls.players.at(index);
     playerControl.controls.initialCommandPoints.setValue(points);
   }
@@ -99,22 +114,22 @@ updateCommandPoints(index: number, points: number): void {
       name: this.matchForm?.value.name ? this.matchForm.value.name : '',
       players: Array.isArray(this.matchForm.value.players)
         ? this.matchForm.value.players.map(player => {
-            const now = new Date();
-            return {
-              id: crypto.randomUUID?.() ?? Math.random().toString(36).slice(2),
-              name: player.name ?? '',
-              faction: player.faction ?? '',
-              initialCommandPoints: player.initialCommandPoints ?? 0,
-              initialVictoryPoints: 0,
-              currentVictoryPoints: 0,
-              currentCommandPoints: player.initialCommandPoints ?? 0,
-              isActive: false,
-              isEliminated: false,
-              notes: '',
-              createdAt: now,
-              updatedAt: now
-            };
-          })
+          const now = new Date();
+          return {
+            id: crypto.randomUUID?.() ?? Math.random().toString(36).slice(2),
+            name: player.name ?? '',
+            faction: player.faction ?? '',
+            initialCommandPoints: player.initialCommandPoints ?? 0,
+            initialVictoryPoints: 0,
+            currentVictoryPoints: 0,
+            currentCommandPoints: player.initialCommandPoints ?? 0,
+            isActive: false,
+            isEliminated: false,
+            notes: '',
+            createdAt: now,
+            updatedAt: now
+          };
+        })
         : [],
       status: 'pending',
       round: 0,

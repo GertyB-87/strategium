@@ -1,4 +1,4 @@
-<h2 mat-dialog-title style="background-color: #49454e;">TableTop Match Creator</h2>
+<h2 mat-dialog-title class="dialog-title" [ngClass]="{'is-phone': isPhone}">TableTop Match Creator</h2>
 <mat-dialog-content class="create-tabletop-match-dialog" style="background-color: #252427;">
     <form [formGroup]="matchForm" (ngSubmit)="onSubmit()"  class="create-tabletop-match-dialog">
         <p><i>Create new Match!</i></p>
@@ -13,14 +13,14 @@
                 <span>ADD player</span>
             </button>
         </div>
-        <div formArrayName="players" style="max-height: 320px; overflow-y: auto; width: 100%;">
+        <div formArrayName="players" clas="players-wrapper">
             @for (player of matchForm.controls.players.controls; track playerIndex; let playerIndex = $index) {
-                <div [formGroupName]="playerIndex" style="display: flex; width: 100%; align-items: flex-start; gap: 16px; margin-bottom: 12px;">
-                    <mat-form-field appearance="fill" floatLabel="always" style="flex: 4 1 0;">
+                <div [formGroupName]="playerIndex" class="players-container"  [ngClass]="{'is-phone': isPhone}">
+                    <mat-form-field appearance="fill" floatLabel="always" class="players-name-field">
                         <mat-label>Player Name</mat-label>
                         <input matInput formControlName="name" />
                     </mat-form-field>
-                    <mat-form-field appearance="fill" style="flex: 4 1 0;">
+                    <mat-form-field appearance="fill" class="players-faction-select">
                         <mat-label>Faction / Character</mat-label>
                         <input matInput formControlName="faction" [matAutocomplete]="factionAuto" autocomplete="off" />
                         <mat-autocomplete #factionAuto="matAutocomplete">
@@ -29,17 +29,19 @@
                             }
                         </mat-autocomplete>
                     </mat-form-field>
-                    <mat-form-field appearance="fill" floatLabel="always" style="flex: 1 1 0;">
+                    <mat-form-field appearance="fill" floatLabel="always" class="players-cp-field">
                         <mat-label>CP</mat-label>
                         <input matInput type="number"
                             (input)="updateCommandPoints(playerIndex, $any($event.target).value)" />
                     </mat-form-field>
-                    <div style="display: flex; align-items: center; justify-content: center; flex: 0 0 auto; min-width: 120px; margin-left: 8px;">
+                    <div class="players-remove-button-wrapper" [ngClass]="{'is-phone': isPhone}">
                         <button type="button"
                             (click)="removePlayer(playerIndex)"
-                            style="padding: 5px; height: 100%; display: flex; align-items: center; gap: 8px; width: 100px;"
+                            class="players-remove-button" [ngClass]="{'is-phone': isPhone}"
                             aria-label="Remove player">
-                            <span>REMOVE player</span>
+                            <span class="players-remove-button-label">
+                                    REMOVE
+                            </span>
                         </button>
                     </div>
                 </div>

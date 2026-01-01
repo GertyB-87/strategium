@@ -1,11 +1,87 @@
 create-tablet-match-dialog {
 
-    width: 85vw;
-    height: 85vh;
+  width: 85vw;
+  height: 85vh;
 }
+.dialog-title {
+  background-color: #49454e;
+  font-size: 2em;
+}
+.dialog-title.is-phone {
+  font-size: 1.2em;
+}
+
 .create-tabletop-match-dialog-panel .mat-mdc-dialog-container {
   resize: both;
   overflow: auto;
-    width: 85vw;
-    height: 85vh;
+  width: 85vw;
+  height: 85vh;
+}
+
+.players-remove-button {
+  margin: 5px;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  height: 60%;;
+}
+
+.players-wrapper {
+  /*   max-height: 320px;
+  overflow-y: auto;
+  width: 100%; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  overflow: scroll
+}
+
+.players-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  flex-grow: 1;
+  flex-shrink: 1;
+  gap: 1em;
+  flex-basis: auto;
+  border-bottom: 1px solid gray;
+  margin-bottom: 12px;
+  margin-top: 5px;
+}
+
+.players-container.is-phone {
+  flex-direction: column;
+  gap: 0em;
+  margin: 1px;
+  padding: 1px;
+}
+
+.players-name-field {
+    flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+}
+
+.players-faction-select {
+    flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+}
+
+.players-cp-field {
+    flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+}
+
+.players-remove-button-wrapper.is-phone {
+  display: flex;
+  justify-content: end;
+}
+
+.players-remove-button-label {
+  color: red;
 }
