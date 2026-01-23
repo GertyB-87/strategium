@@ -1,0 +1,154 @@
+{
+  "doctrines": [
+    {
+      "doctrine": "1. Strategic",
+      "stratagems": [
+        {
+          "name": "Maneuver One",
+          "cp": 1,
+          "effect": "Increase movement distance under specific conditions"
+        },
+        {
+          "name": "Maneuver Two",
+          "cp": 1,
+          "effect": "Enemy movement is treated as hazardous"
+        },
+        {
+          "name": "Maneuver Three",
+          "cp": 2,
+          "effect": "Multiple allied entities perform short relocations"
+        },
+        {
+          "name": "Maneuver Four",
+          "cp": 3,
+          "effect": "Activated entity relocates within a limited radius"
+        }
+      ]
+    },
+    {
+      "doctrine": "2. Defensive",
+      "stratagems": [
+        {
+          "name": "Defense Alpha",
+          "cp": 1,
+          "effect": "Negate a damaging result based on a probability check"
+        },
+        {
+          "name": "Defense Beta",
+          "cp": 1,
+          "effect": "Gain a situational protection modifier"
+        },
+        {
+          "name": "Defense Gamma",
+          "cp": 2,
+          "effect": "Reduce opposing defensive effectiveness"
+        },
+        {
+          "name": "Defense Delta",
+          "cp": 3,
+          "effect": "Withdraw a random distance from a nearby threat"
+        }
+      ]
+    },
+    {
+      "doctrine": "3. Shock",
+      "stratagems": [
+        {
+          "name": "Assault One",
+          "cp": 1,
+          "effect": "Significantly increase movement during an aggressive action"
+        },
+        {
+          "name": "Assault Two",
+          "cp": 1,
+          "effect": "Perform a brief relocation after close engagement"
+        },
+        {
+          "name": "Assault Three",
+          "cp": 2,
+          "effect": "Impose a conditional combat penalty on opponents"
+        },
+        {
+          "name": "Assault Four",
+          "cp": 3,
+          "effect": "Allow a final interaction before entity removal"
+        }
+      ]
+    },
+    {
+      "doctrine": "4. Hunting",
+      "stratagems": [
+        {
+          "name": "Tracking Alpha",
+          "cp": 1,
+          "effect": "Ignore environmental protection modifiers"
+        },
+        {
+          "name": "Tracking Beta",
+          "cp": 1,
+          "effect": "Apply a penalty to opposing accuracy checks"
+        },
+        {
+          "name": "Tracking Gamma",
+          "cp": 2,
+          "effect": "Grant an extra action with strict success conditions"
+        },
+        {
+          "name": "Tracking Delta",
+          "cp": 3,
+          "effect": "Trigger a reactive action with reduced effectiveness"
+        }
+      ]
+    },
+    {
+      "doctrine": "5. Valorous",
+      "stratagems": [
+        {
+          "name": "Resolve One",
+          "cp": 1,
+          "effect": "Perform a long disengagement when destabilized"
+        },
+        {
+          "name": "Resolve Two",
+          "cp": 1,
+          "effect": "Retry a failed resolve-related check"
+        },
+        {
+          "name": "Resolve Three",
+          "cp": 2,
+          "effect": "Force an opponent to repeat a successful resolve check"
+        },
+        {
+          "name": "Resolve Four",
+          "cp": 3,
+          "effect": "Prevent or downgrade a negative status effect"
+        }
+      ]
+    },
+    {
+      "doctrine": "6. Tactical",
+      "stratagems": [
+        {
+          "name": "Tactic Alpha",
+          "cp": 1,
+          "effect": "Gain additional movement when near a control point"
+        },
+        {
+          "name": "Tactic Beta",
+          "cp": 1,
+          "effect": "Generate a resource token with usage restrictions"
+        },
+        {
+          "name": "Tactic Gamma",
+          "cp": 2,
+          "effect": "Temporarily remove and later reintroduce an entity"
+        },
+        {
+          "name": "Tactic Delta",
+          "cp": 3,
+          "effect": "Reset the state of a contested control point"
+        }
+      ]
+    }
+  ]
+}

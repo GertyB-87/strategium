@@ -1,3 +1,5 @@
+import { Doctrine } from "./doctrines";
+
 export interface TableTopPlayer {
     id: string;
     name: string;
@@ -10,4 +12,5 @@ export interface TableTopPlayer {
     createdAt: Date;
     updatedAt: Date;
     notes?: string;
+    currentDoctrine?: Doctrine;
 }

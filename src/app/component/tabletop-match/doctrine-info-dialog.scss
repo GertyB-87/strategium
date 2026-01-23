@@ -1,0 +1,60 @@
+.doctrine-container{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+.doctrine-header-text {
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding: 0 3px 0 0;
+}
+.doctrine-description {
+    margin: 0 12px 8px 2rem;
+    font-style: italic;
+}
+.stratagem-card-container  .mat-mdc-card-header{
+    //background-color: blue;/*  */
+    margin: 0 5px 3px 03px ;
+    padding: 0;
+
+}
+.stratagem-card-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%
+}
+
+.stratagem-card-header-name {
+    font-weight: bold;
+    color: turquoise
+}
+.stratagem-card-header-name.is-phone-landscape {
+    font-size: 0.8rem;
+    padding: 5px 7px 0;
+
+}
+
+.stratagem-card-header-cp {
+    margin-left: auto;
+    color: turquoise;
+    font-style: italic;
+}
+.stratagem-card-header-cp.is-phone-landscape {
+    font-size: 0.8rem;
+    padding: 5px 7px 0;
+    margin-left: auto;
+    color: turquoise;
+    font-style: italic;
+}
+
+.mat-mdc-card-content:last-child {
+    padding-bottom: 6px;
+}
+.stratagem-card-content-effect{
+    font-style: normal;
+}
+.stratagem-card-content-effect.is-phone-landscape {
+    font-size: 0.6rem;
+    font-style: normal;
+}

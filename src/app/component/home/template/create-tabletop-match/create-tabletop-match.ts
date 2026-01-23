@@ -37,6 +37,7 @@ type FormPlayer = FormGroup<{
 
 type MatchForm = FormGroup<{
   name: FormControl<string>;
+  oprDoctrines: FormControl<boolean>;
   players: FormArray<FormPlayer>;
 }>;
 
@@ -80,6 +81,7 @@ export class CreateTabletopMatch implements OnInit {
 
   matchForm: MatchForm = this.fb.group({
     name: [this.chooseRandomMatchName()],
+    oprDoctrines: [false],
     players: this.fb.array<FormPlayer>([this.generatePlayer(), this.generatePlayer()]),
   });
 
@@ -112,6 +114,7 @@ export class CreateTabletopMatch implements OnInit {
     const match: TableTopMatch = {
       id: crypto.randomUUID?.() ?? Math.random().toString(36).slice(2),
       name: this.matchForm?.value.name ? this.matchForm.value.name : '',
+      oprDoctrines: this.matchForm?.value.oprDoctrines ? this.matchForm.value.oprDoctrines : false,
       players: Array.isArray(this.matchForm.value.players)
         ? this.matchForm.value.players.map(player => {
           const now = new Date();

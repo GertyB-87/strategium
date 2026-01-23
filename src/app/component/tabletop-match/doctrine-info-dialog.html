@@ -1,0 +1,52 @@
+<h2 mat-dialog-title class="doctrine-title">{{ data.doctrine }}</h2>
+<mat-dialog-content class="doctrine-content">
+    <div class="doctrine-container">
+<!--         <div class="doctrine-entry-wrapper">
+            <span class="doctrine-header-text">Universal Doctrine</span>
+            @for (stratagem of universalDoctrine.stratagems; track stratagem) {
+            <mat-card class="stratagem-card-container" appearance="outlined">
+                <mat-card-header>
+                    <div class="stratagem-card-header-container" style="margin: 0px;">
+                        <mat-card-title class="stratagem-card-header-name"
+                            [ngClass]="{'is-phone-landscape': isPhoneLandscape || isLarge}">{{ stratagem.name
+                            }}</mat-card-title>
+                        <mat-card-title class="stratagem-card-header-cp"
+                            [ngClass]="{'is-phone-landscape': isPhoneLandscape || isLarge}">{{ stratagem.cp }}
+                            CP</mat-card-title>
+                    </div>
+                </mat-card-header>
+                <mat-card-content class="stratagem-card-content">
+                    <span class="stratagem-card-content-effect" [ngClass]="{'is-phone-landscape': isPhoneLandscape}">
+                        {{stratagem.effect}}
+                    </span>
+                </mat-card-content>
+            </mat-card>
+            }
+        </div> -->
+        <div>
+            <span class="doctrine-header-text" >{{data.doctrine}}</span>
+            @for (stratagem of data.stratagems; track stratagem) {
+            <mat-card class="stratagem-card-container" appearance="outlined">
+                <mat-card-header>
+                    <div class="stratagem-card-header-container" >
+                        <mat-card-title class="stratagem-card-header-name"
+                            [ngClass]="{'is-phone-landscape': isPhoneLandscape || isLarge}">{{ stratagem.name
+                            }}</mat-card-title>
+                        <mat-card-title class="stratagem-card-header-cp"
+                            [ngClass]="{'is-phone-landscape': isPhoneLandscape || isLarge}">{{ stratagem.cp }}
+                            CP</mat-card-title>
+                    </div>
+                </mat-card-header>
+                <mat-card-content class="stratagem-card-content">
+                    <span style="stratagem-card-content-effect" [ngClass]="{'is-phone-landscape': isPhoneLandscape}">
+                        {{stratagem.effect}}
+                    </span>
+                </mat-card-content>
+            </mat-card>
+            }
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions class="doctrine-actions">
+    <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions>

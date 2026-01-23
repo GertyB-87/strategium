@@ -43,6 +43,26 @@
                         (click)="changePlayerValue('victoryPoints', playerIndex, 1)" tabindex="0">+</button>
                 </div>
             </div>
+            @if (match?.oprDoctrines) {
+                <div class="player-doctrine-container" [ngClass]="{'is-phone': isPhone}" aria-label="Select doctrine for {{ player.name }}">
+                    <mat-select id="doctrine-{{playerIndex}}" class="doctrine-select-wrapper" [ngClass]="{'is-phone': isPhone}"
+                        aria-label="Select doctrine for {{ player.name }}" [(value)]="player.currentDoctrine" placeholder="Select a doctrine"
+                        [compareWith]="compareDoctrines" (selectionChange)="changePlayerDoctrine(playerIndex, $event)">
+                        <mat-label class="doctrine-select-label" [ngClass]="{'is-phone': isPhone}">Doctrine</mat-label>
+                        @for (doctrine of doctrinesList; track doctrine) {
+                        <mat-option [value]="doctrine">
+                            {{ doctrine.doctrine }}
+                        </mat-option>
+                        }
+                    </mat-select>
+                    @if(false && player.currentDoctrine) {
+                        <!-- removed because of copyright concerns to show rules -->
+/*                     <button class="doctrine-info-button" aria-label="Info about {{ player.currentDoctrine.doctrine }}" (click)="openDoctrineInfo(player.currentDoctrine)" tabindex="0">
+                        INFO
+                    </button> */
+                    }
+                </div>
+            }
         </div>
         }
     </div>
@@ -51,6 +71,8 @@
     <p class="match-footer-detail-label">Details: </p>
     <p class="match-footer-label">status = </p>
     <p class="match-footer-value">{{ match?.status }}</p>
+    <p class="match-footer-label">doctrines = </p>
+    <p class="match-footer-value">{{ match?.oprDoctrines }}</p>
     <p class="match-footer-label">number of players = </p>
     <p class="match-footer-value">{{ match?.players?.length }}</p>
     <p class="match-footer-label">round = </p>

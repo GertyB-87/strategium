@@ -6,7 +6,14 @@ import { LocalStorageService } from '../../local-storage-service';
 import { TableTopPlayer } from '../../data/tabletop-player';
 import { interval, Subscription } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatIcon, MatIconModule } from "@angular/material/icon";
+import { MatIconModule, MatIconRegistry } from "@angular/material/icon";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DomSanitizer } from '@angular/platform-browser';
+import * as DoctrinesJson from '../../data/doctrines.json';
+import { MatSelectModule, MatSelectChange } from '@angular/material/select';
+import { Doctrine, Doctrines } from '../../data/doctrines';
+import { DoctrineInfoDialog } from './doctrine-info-dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 type FormPlayer = FormGroup<{
   name: FormControl<string>;
@@ -21,12 +28,11 @@ type MatchForm = FormGroup<{
 
 @Component({
   selector: 'tabletop-match',
-  imports: [DatePipe, NgClass],
+  imports: [DatePipe, NgClass, MatIconModule, MatSelectModule, MatButtonModule, MatDialogModule],
   templateUrl: './tabletop-match.html',
-  styleUrl: './tabletop-match.scss',
+  styleUrls: ['./tabletop-match.scss'],
 })
 export class TabletopMatchComponent implements OnDestroy, OnInit {
-
   private localStorageService = inject(LocalStorageService);
   private cd = inject(ChangeDetectorRef);
   match = inject(Router).getCurrentNavigation()?.extras.state?.['match'];
@@ -41,11 +47,13 @@ export class TabletopMatchComponent implements OnDestroy, OnInit {
   isTablet: boolean = false;
   isLarge: boolean = false;
   isExraLarge: boolean = false;
+  doctrines: Doctrines = DoctrinesJson as Doctrines;
+  doctrinesList = this.doctrines.doctrines.map(d => d);
 
   readonly router = inject(Router);
+  private dialog = inject(MatDialog);
 
   constructor(private responsive: BreakpointObserver) {
-
     console.log('TabletopMatchComponent initialized with match:', this.match);
     //console.log('Current Navigation Extras State:', inject(Router).getCurrentNavigation()?.extras.state);
     if (!this.match) {
@@ -53,6 +61,7 @@ export class TabletopMatchComponent implements OnDestroy, OnInit {
       //console.log('Retrieved match from localStorage:', storedMatch);
       if (storedMatch) {
         this.match = storedMatch;
+        console.log('Using match from localStorage:', this.match);
       }
       else {
         console.warn('No match found in navigation state or localStorage. Redirecting to home.');
@@ -184,6 +193,30 @@ export class TabletopMatchComponent implements OnDestroy, OnInit {
     } catch (e) {
       // ignore if detectChanges is not available for some reason
       console.warn('Could not call detectChanges():', e);
+    }
+  }
+
+  changePlayerDoctrine(playerIndex: number, event: MatSelectChange | null | undefined) {
+    const doctrine = (event as any)?.value;
+    const player = this.match?.players?.[playerIndex];
+    console.log('Selected doctrine:', doctrine, 'for player:', player);
+    player.currentDoctrine = doctrine ?? null;
+    this.localStorageService.setItem('match', this.match);
+  }
+
+  compareDoctrines(d1: Doctrine, d2: Doctrine): boolean {
+    return d1 && d2 ? d1.doctrine === d2.doctrine : d1 === d2;
+  }
+
+  openDoctrineInfo(doctrine: Doctrine) {
+    try {
+      this.dialog.open(DoctrineInfoDialog, {
+        data: doctrine,
+        panelClass: 'doctrine-info-dialog-panel',
+      });
+    } catch (e) {
+      console.warn('Could not open doctrine dialog, falling back to alert', e);
+      alert(`Doctrine: ${doctrine.doctrine}\n\nDescription: ${doctrine.stratagems.join('\n')}`);
     }
   }
 }

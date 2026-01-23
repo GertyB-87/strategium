@@ -7,6 +7,10 @@
             <mat-label>Match Name</mat-label>
             <input matInput formControlName="name"/>
         </mat-form-field>
+        <div>
+            <mat-label for="oprDoctrinesCheckbox" style="margin-right: 8px;">Use Doctrines</mat-label>
+            <input type="checkbox" formControlName="oprDoctrines" id="oprDoctrinesCheckbox"/>
+        </div>
         <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 8px;">
             <h2 style="margin: 0;">Players</h2>
             <button type="button" (click)="addPlayer()" aria-label="Add player" style="padding: 5px; display: flex; align-items: center; gap: 8px;width: 100px; margin-right: 0.5vw;">

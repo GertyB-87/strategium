@@ -42,3 +42,4 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 /mycommands.txt
+/src/app/data/doctrines_orig.json
