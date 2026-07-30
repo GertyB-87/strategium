@@ -1,0 +1,208 @@
+<ng-template #matchCard let-id="id">
+  @let m = liveMatch(id);
+  @if (m) {
+    <div class="bracket-match"
+         [class.is-bye]="m.isBye"
+         [class.has-winner]="m.winner"
+         [attr.aria-label]="(m.player1?.name ?? 'TBD') + ' vs ' + (m.player2?.name ?? 'TBD')">
+      <!-- Player 1 -->
+      <div class="match-player" [class.winner]="m.winner?.id === m.player1?.id">
+        <span class="player-info">
+          <span class="p-name">{{ m.player1?.name ?? (m.isBye ? 'BYE' : 'TBD') }}</span>
+          @if (m.player1) {
+            <span class="p-hero">{{ m.player1.hero.name }}</span>
+          }
+        </span>
+        @if (isMatchReady(m)) {
+          <button type="button" class="pick-btn"
+                  (click)="pickWinner(id, 'player1')"
+                  aria-label="Pick {{ m.player1?.name }} as winner">⭐</button>
+        }
+        @if (m.winner?.id === m.player1?.id) {
+          <button type="button" class="win-icon-btn"
+                  (click)="revokeWinner(id)"
+                  matTooltip="Revoke winner"
+                  aria-label="Revoke winner for this match">🏆</button>
+        }
+      </div>
+      <div class="match-divider"></div>
+      <!-- Player 2 -->
+      <div class="match-player" [class.winner]="m.winner?.id === m.player2?.id">
+        <span class="player-info">
+          <span class="p-name">{{ m.player2?.name ?? (m.isBye ? 'BYE' : 'TBD') }}</span>
+          @if (m.player2) {
+            <span class="p-hero">{{ m.player2.hero.name }}</span>
+          }
+        </span>
+        @if (isMatchReady(m)) {
+          <button type="button" class="pick-btn"
+                  (click)="pickWinner(id, 'player2')"
+                  aria-label="Pick {{ m.player2?.name }} as winner">⭐</button>
+        }
+        @if (m.winner?.id === m.player2?.id) {
+          <button type="button" class="win-icon-btn"
+                  (click)="revokeWinner(id)"
+                  matTooltip="Revoke winner"
+                  aria-label="Revoke winner for this match">🏆</button>
+        }
+      </div>
+    </div>
+  }
+</ng-template>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+@if (match()) {
+  <div class="fab-match-root" [class.is-phone]="isPhone()">
+
+    <!-- Header -->
+    <header class="match-header">
+      <span class="match-mode-label">{{ match()?.gameMode | uppercase }}</span>
+      <button type="button" mat-stroked-button class="home-btn" (click)="goHome()"
+              aria-label="Back to home">← Home</button>
+    </header>
+
+    <!-- ════════════════ TWO-ON-TWO ════════════════ -->
+    @if (match()?.gameMode === 'two-on-two') {
+      <main class="two-on-two-view" role="main" aria-label="Two-on-Two match">
+        @for (team of match()?.teams; track team.id) {
+          <div class="team-card" [class.starting-team]="team.isStartingTeam"
+               [attr.aria-label]="team.name + (team.isStartingTeam ? ', starting team' : '')">
+            @if (team.isStartingTeam) {
+              <div class="starting-badge" aria-live="polite">🚀 Starting Team</div>
+            }
+            <h2 class="team-name">{{ team.name }}</h2>
+            <div class="team-players">
+              @for (player of team.players; track player.id) {
+                <div class="player-tile">
+                  <span class="tile-player-name">{{ player.name }}</span>
+                  <span class="tile-hero-class">{{ player.hero.class }}</span>
+                  <span class="tile-hero-name">{{ player.hero.name }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </main>
+    }
+
+    <!-- ════════════════ BRAWL ════════════════ -->
+    @if (match()?.gameMode === 'brawl') {
+      <main class="brawl-view" role="main" aria-label="Brawl match">
+        <h2 class="brawl-title">Free-For-All Chaos</h2>
+        <div class="brawl-grid">
+          @for (player of match()?.players; track player.id) {
+            <div class="brawl-tile">
+              <span class="brawl-player-name">{{ player.name }}</span>
+              <span class="brawl-hero-class">{{ player.hero.class }}</span>
+              <span class="brawl-hero-name">{{ player.hero.name }}</span>
+            </div>
+          }
+        </div>
+      </main>
+    }
+
+    <!-- ════════════════ TOURNAMENT ════════════════ -->
+    @if (match()?.gameMode === 'tournament') {
+      <main class="tournament-view" role="main" aria-label="Tournament bracket">
+
+        @if (allMatchesComplete()) {
+          <div class="rankings-trigger-row">
+            <button type="button" mat-raised-button color="primary"
+                    class="rankings-btn" (click)="openRankings()"
+                    aria-label="Show tournament rankings">
+              🏅 Show Rankings
+            </button>
+          </div>
+        }
+
+        <div class="bracket-scroll-wrapper">
+          <div class="bracket-main">
+
+            <!-- LEFT side -->
+            @if (leftBracketRounds().length > 0) {
+              <div class="bracket-side bracket-left" role="region" aria-label="Left side of bracket">
+                @for (round of leftBracketRounds(); track round.id) {
+                  <div class="bracket-column">
+                    <div class="round-label">{{ round.name }}</div>
+                    @for (m of round.matches; track m.id) {
+                      <div class="match-group">
+                        <ng-container [ngTemplateOutlet]="matchCard"
+                                      [ngTemplateOutletContext]="{ id: m.id }">
+                        </ng-container>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- CENTER: Final -->
+            <div class="bracket-center">
+              <div class="round-label center-label">⚔️ Final</div>
+              @if (finalMatchId()) {
+                <div class="match-group final-group">
+                  <ng-container [ngTemplateOutlet]="matchCard"
+                                [ngTemplateOutletContext]="{ id: finalMatchId() }">
+                  </ng-container>
+                </div>
+              }
+            </div>
+
+            <!-- RIGHT side -->
+            @if (rightBracketRounds().length > 0) {
+              <div class="bracket-side bracket-right" role="region" aria-label="Right side of bracket">
+                @for (round of rightBracketRounds(); track round.id) {
+                  <div class="bracket-column">
+                    <div class="round-label">{{ round.name }}</div>
+                    @for (m of round.matches; track m.id) {
+                      <div class="match-group">
+                        <ng-container [ngTemplateOutlet]="matchCard"
+                                      [ngTemplateOutletContext]="{ id: m.id }">
+                        </ng-container>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+
+          </div><!-- /.bracket-main -->
+        </div><!-- /.bracket-scroll-wrapper -->
+
+        <!-- Consolation bracket -->
+        @if (consolationRounds().length > 0) {
+          <section class="consolation-section" aria-label="Consolation bracket">
+            <h3 class="consolation-title">
+              🥉 Battle for the Remaining Glory
+              <span class="consolation-sub">(Losing here is also an achievement. Kind of.)</span>
+            </h3>
+            <div class="consolation-rounds">
+              @for (round of consolationRounds(); track round.id) {
+                <div class="consolation-round">
+                  <div class="round-label">{{ round.name }}</div>
+                  <div class="consolation-matches">
+                    @for (m of round.matches; track m.id) {
+                      <ng-container [ngTemplateOutlet]="matchCard"
+                                    [ngTemplateOutletContext]="{ id: m.id }">
+                      </ng-container>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </section>
+        }
+
+      </main>
+    }
+
+  </div><!-- /.fab-match-root -->
+}
+
+@if (!match()) {
+  <div class="loading-state" aria-live="polite">
+    <p>Loading match… if nothing appears, the dice have truly forsaken you.</p>
+    <button mat-stroked-button type="button" (click)="goHome()">← Home</button>
+  </div>
+}

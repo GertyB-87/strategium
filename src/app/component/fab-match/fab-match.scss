@@ -1,0 +1,483 @@
+// ── Root ─────────────────────────────────────────────────────────────────────
+
+.fab-match-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: 0 0 2rem 0;
+  box-sizing: border-box;
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+
+.match-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background-color: #49454e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.match-mode-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: oklch(86.267% 0.23186 140.858);
+}
+
+.home-btn {
+  font-size: 0.8rem !important;
+}
+
+// ── Two-on-Two ────────────────────────────────────────────────────────────────
+
+.two-on-two-view {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  align-items: flex-start;
+}
+
+.team-card {
+  flex: 1 1 280px;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  background-color: #1c1b1f;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.team-card.starting-team {
+  border-color: oklch(86.267% 0.23186 140.858);
+  box-shadow: 0 0 20px oklch(86.267% 0.23186 140.858 / 0.3);
+}
+
+.starting-badge {
+  position: absolute;
+  top: -0.9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: oklch(86.267% 0.23186 140.858);
+  color: #0b0b0b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.team-name {
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 0;
+  color: oklch(86.267% 0.23186 140.858);
+}
+
+.team-players {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.player-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background-color: #252427;
+  min-width: 120px;
+  flex: 1 1 120px;
+}
+
+.tile-player-name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.tile-hero-class {
+  font-size: 0.7rem;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tile-hero-name {
+  font-size: 0.85rem;
+  color: oklch(86.267% 0.23186 140.858);
+}
+
+// ── Brawl ─────────────────────────────────────────────────────────────────────
+
+.brawl-view {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.brawl-title {
+  font-size: 1.75rem;
+  text-align: center;
+  margin: 0;
+  color: oklch(86.267% 0.23186 140.858);
+}
+
+.brawl-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  justify-content: center;
+  max-width: 900px;
+  width: 100%;
+}
+
+.brawl-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  background-color: #1c1b1f;
+  min-width: 150px;
+  flex: 1 1 150px;
+  max-width: 220px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.brawl-player-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.brawl-hero-class {
+  font-size: 0.68rem;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.brawl-hero-name {
+  font-size: 0.9rem;
+  color: oklch(86.267% 0.23186 140.858);
+  text-align: center;
+}
+
+// ── Tournament bracket ────────────────────────────────────────────────────────
+
+.tournament-view {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0.5rem;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.rankings-trigger-row {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
+}
+
+.rankings-btn {
+  font-size: 1rem !important;
+  padding: 0.5rem 2rem !important;
+}
+
+.bracket-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  // Center the bracket when it’s smaller than the viewport;
+  // overflow-x still works because inline-flex sizes to content.
+  text-align: center;
+}
+
+.bracket-main {
+  display: inline-flex;  // inline so text-align:center on parent centers it
+  flex-direction: row;
+  align-items: stretch;
+  min-height: 320px;
+  padding: 0.5rem 0;
+  text-align: left;      // reset so inner content isn’t affected
+}
+
+.bracket-side {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.bracket-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  padding: 0 0.25rem;
+}
+
+.round-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+  text-align: center;
+  padding: 0.25rem 0;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+
+.center-label {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  color: oklch(86.267% 0.23186 140.858);
+}
+
+.match-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.3rem 0;
+}
+
+.final-group {
+  flex: unset;
+}
+
+.bracket-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  padding: 0 0.5rem;
+  flex-shrink: 0;
+}
+
+// ── Bracket match card ─────────────────────────────────────────────────────────
+
+.bracket-match {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #1c1b1f;
+  min-width: 170px;
+  transition: border-color 0.2s;
+
+  &.is-bye {
+    opacity: 0.55;
+    border-style: dashed;
+  }
+
+  &.has-winner {
+    border-color: oklch(86.267% 0.23186 140.858 / 0.5);
+  }
+}
+
+.match-player {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.6rem;
+  gap: 0.4rem;
+  min-height: 40px;
+
+  &.winner {
+    background-color: oklch(86.267% 0.23186 140.858 / 0.15);
+  }
+}
+
+.match-divider {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.p-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.p-hero {
+  font-size: 0.65rem;
+  opacity: 0.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: oklch(86.267% 0.23186 140.858);
+}
+
+.pick-btn {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0.15rem 0.3rem;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.1s;
+  line-height: 1;
+
+  &:hover {
+    background: oklch(86.267% 0.23186 140.858 / 0.2);
+    transform: scale(1.15);
+  }
+
+  &:focus-visible {
+    outline: 2px solid oklch(86.267% 0.23186 140.858);
+    outline-offset: 2px;
+  }
+}
+
+.win-icon-btn {
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  padding: 0.1rem 0.2rem;
+  border-radius: 4px;
+  line-height: 1;
+  transition: transform 0.15s, opacity 0.15s, border-color 0.15s;
+
+  &:hover {
+    transform: scale(1.2);
+    opacity: 0.7;
+    border-color: rgba(255, 100, 100, 0.5);
+  }
+
+  &:focus-visible {
+    outline: 2px solid oklch(86.267% 0.23186 140.858);
+    outline-offset: 2px;
+  }
+}
+
+// ── Consolation ───────────────────────────────────────────────────────────────
+
+.consolation-section {
+  width: 100%;
+  max-width: 900px;
+  padding: 1rem 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.consolation-title {
+  font-size: 1rem;
+  text-align: center;
+  margin: 0 0 1rem 0;
+}
+
+.consolation-sub {
+  display: block;
+  font-size: 0.7rem;
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.consolation-rounds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.consolation-round {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.consolation-matches {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+// ── Loading state ─────────────────────────────────────────────────────────────
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 1rem;
+  text-align: center;
+  padding: 2rem;
+  opacity: 0.7;
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+
+.fab-match-root.is-phone {
+  .match-mode-label {
+    font-size: 0.95rem;
+  }
+
+  .team-card {
+    flex-basis: 90vw;
+    max-width: 90vw;
+  }
+
+  .brawl-tile {
+    flex-basis: 40vw;
+    min-width: 130px;
+  }
+
+  .bracket-column {
+    min-width: 140px;
+  }
+
+  .bracket-center {
+    min-width: 155px;
+  }
+
+  .bracket-match {
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 600px) {
+  .two-on-two-view {
+    flex-direction: column;
+    align-items: center;
+  }
+}

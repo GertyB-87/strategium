@@ -1,0 +1,124 @@
+{
+    "heroes": [
+        {
+            "id": "hero-001",
+            "name": "Riptide",
+            "class": "Ranger",
+            "description": "Prefers enemies at a comfortable distance — ideally several zip codes away. Lays traps, fires arrows, and somehow still blames the dice."
+        },
+        {
+            "id": "hero-002",
+            "name": "Kai",
+            "class": "Mage",
+            "description": "Studied arcane arts for twelve years just to set things on fire slightly faster than everyone else. Has singed every cape he's ever owned."
+        },
+        {
+            "id": "hero-003",
+            "name": "Benji",
+            "class": "Ninja",
+            "description": "Arrives unannounced, deals catastrophic damage, and leaves before the dust settles. Also never washes the dishes."
+        },
+        {
+            "id": "hero-004",
+            "name": "Briar",
+            "class": "Runeblade",
+            "description": "Fuses arcane magic with sharp steel — which sounds impressive until you realize the runes just say 'please win' in elvish."
+        },
+        {
+            "id": "hero-005",
+            "name": "Phantom",
+            "class": "Assassin",
+            "description": "Technically present in every fight. Nobody can confirm this. Not even the opponents. Especially not the opponents."
+        },
+        {
+            "id": "hero-006",
+            "name": "Valkyrie",
+            "class": "Warrior",
+            "description": "A battle-scarred champion with a sword bigger than most people's life ambitions. Hits first, considers philosophy later."
+        },
+        {
+            "id": "hero-007",
+            "name": "Aether",
+            "class": "Sorcerer",
+            "description": "Weaves elemental chaos into devastating spell combos. Also owns seventeen robes and considers them all 'battle-appropriate'."
+        },
+        {
+            "id": "hero-008",
+            "name": "Thorn",
+            "class": "Druid",
+            "description": "Has a deep spiritual bond with nature. Nature seems only mildly enthusiastic about this. Still summons things when needed."
+        },
+        {
+            "id": "hero-009",
+            "name": "Blaze",
+            "class": "Pyromancer",
+            "description": "Setting things on fire is not just a skill, it's a personality. Has been banned from three taverns. All burned down. Coincidence."
+        },
+        {
+            "id": "hero-010",
+            "name": "Frostbite",
+            "class": "Cryomancer",
+            "description": "Controls ice with pinpoint precision and absolutely zero chill. Freezes enemies solid and then sighs dramatically."
+        },
+        {
+            "id": "hero-011",
+            "name": "Shadow",
+            "class": "Assassin",
+            "description": "Strikes from darkness with surgical precision. Wrote a memoir titled 'You Never Saw Me'. It was a bestseller. Nobody knows who wrote it."
+        },
+        {
+            "id": "hero-012",
+            "name": "Titan",
+            "class": "Guardian",
+            "description": "An immovable fortress of muscle and misplaced confidence. Takes hits so teammates don't have to. Secretly enjoys it."
+        },
+        {
+            "id": "hero-013",
+            "name": "Luna",
+            "class": "Healer",
+            "description": "The only hero who makes everyone else look useful by keeping them alive. Gets zero glory and maximum passive-aggression at the end of every match."
+        },
+        {
+            "id": "hero-014",
+            "name": "Tempest",
+            "class": "Elementalist",
+            "description": "Commands lightning, wind, and the occasional hailstorm. Has strong opinions about weather and will share them mid-combat."
+        },
+        {
+            "id": "hero-015",
+            "name": "Viper",
+            "class": "Duelist",
+            "description": "Fast, venomous, and absolutely unbearable to play against. Wins by annoying opponents into making mistakes. It works every time."
+        },
+        {
+            "id": "hero-016",
+            "name": "Axel",
+            "class": "Berserker",
+            "description": "Charges into battle with the grace of a falling wardrobe. Damage output is impressive. Surviving long enough to deal it is another story."
+        },
+        {
+            "id": "hero-017",
+            "name": "Nyx",
+            "class": "Illusionist",
+            "description": "Creates flawless illusions that confuse, disorient, and baffle enemies. Also uses them to skip queues. Multi-talented."
+        },
+        {
+            "id": "hero-018",
+            "name": "Gideon",
+            "class": "Paladin",
+            "description": "Shines with holy light and righteous fury. Has memorized the rulebook. All of them. Points out infractions mid-fight. Still somehow popular."
+        },
+        {
+            "id": "hero-019",
+            "name": "Zara",
+            "class": "Shaman",
+            "description": "Channels ancestral spirits who are frankly unimpressed with the current generation. The spirits cooperate anyway out of a sense of obligation."
+        },
+        {
+            "id": "hero-020",
+            "name": "Flux",
+            "class": "Artificer",
+            "description": "Builds gadgets, traps, and questionable inventions on the fly. Occasionally they work exactly as intended. The rest of the time, so does plan B."
+        }
+    ]
+}

@@ -9,7 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CreateTabletopMatch } from './template/create-tabletop-match/create-tabletop-match';
+import { CreateFabMatchComponent } from './template/create-fab-match/create-fab-match';
 import type { TableTopMatch } from '../../data/tabletop-match';
+import type { FabMatchConfig } from '../../data/fab-match';
 import { Router } from '@angular/router';
 
 @Component({
@@ -47,6 +49,18 @@ export class HomeComponent {
         // Assuming result is a TableTopMatch
         // Use Angular Router to navigate and pass the match as state
         this.router.navigate(['tabletop-match'], { state: { match: result as TableTopMatch } });
+      }
+    });
+  }
+
+  openCreateFabMatchDialog(): void {
+    const dialogRef = this.dialog.open(CreateFabMatchComponent, {
+      panelClass: 'create-fab-match-dialog-panel',
+    });
+
+    dialogRef.afterClosed().subscribe((result: FabMatchConfig | undefined) => {
+      if (result) {
+        this.router.navigate(['fab-match'], { state: { fabMatchConfig: result } });
       }
     });
   }

@@ -1,10 +1,22 @@
-<button
-    type="button"
-    (click)="openCreateTableTopMatchDialog()"
-    aria-haspopup="dialog"
-    aria-controls="home-dialog"
-    class="open-dialog-btn"
-    style="padding: 2rem; background-color: gray; font-size: 1.25rem; margin: 2vw; border-radius: 8px; border-color: darkgray;"
->
-    Create new TableTop Match
-</button>
+<div class="home-buttons">
+  <button
+      type="button"
+      (click)="openCreateTableTopMatchDialog()"
+      aria-haspopup="dialog"
+      aria-controls="home-dialog"
+      class="open-dialog-btn"
+      style="padding: 2rem; background-color: gray; font-size: 1.25rem; margin: 2vw; border-radius: 8px; border-color: darkgray;"
+  >
+      Create new TableTop Match
+  </button>
+
+  <button
+      type="button"
+      (click)="openCreateFabMatchDialog()"
+      aria-haspopup="dialog"
+      class="open-dialog-btn fab-btn"
+      style="padding: 2rem; font-size: 1.25rem; margin: 2vw; border-radius: 8px;"
+  >
+      ⚔️ Create FAB Tournament
+  </button>
+</div>

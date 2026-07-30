@@ -1,0 +1,391 @@
+// ── Dialog layout ────────────────────────────────────────────────────────────
+
+.fab-dialog-title {
+  background-color: #49454e;
+  font-size: 1.75em;
+  margin: 0;
+  padding: 1rem 1.5rem;
+}
+
+.fab-dialog-content {
+  background-color: #252427;
+  padding: 0 !important;
+  max-height: 72vh;
+  overflow: hidden;
+}
+
+.fab-dialog-layout {
+  display: flex;
+  flex-direction: row;
+  height: 72vh;
+  overflow: hidden;
+}
+
+// ── Hero pool (left column) ───────────────────────────────────────────────────
+
+.hero-pool-panel {
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  min-width: 220px;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  background-color: #1c1b1f;
+  flex-shrink: 0;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+  gap: 0.5rem;
+}
+
+.panel-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pool-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pool-toggle-btn {
+  font-size: 0.7rem !important;
+  padding: 0 0.5rem !important;
+  min-width: unset !important;
+  height: 26px !important;
+  line-height: 26px !important;
+}
+
+.pool-count {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  min-width: 36px;
+  text-align: right;
+}
+
+.hero-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.hero-item {
+  padding: 0;
+}
+
+.hero-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+
+  mat-checkbox {
+    flex-shrink: 0;
+  }
+}
+
+.hero-name {
+  flex: 1;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hero-class-badge {
+  font-size: 0.68rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid oklch(86.267% 0.23186 140.858 / 0.5);
+  opacity: 0.75;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+// ── Game setup (right column) ─────────────────────────────────────────────────
+
+.game-setup-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.5rem;
+  overflow-y: auto;
+  gap: 1rem;
+}
+
+.section-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.5rem 0;
+}
+
+// ── Mode slider ───────────────────────────────────────────────────────────────
+
+.mode-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mode-slider-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.mode-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #49454e;
+  outline: none;
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: oklch(86.267% 0.23186 140.858);
+    cursor: pointer;
+    box-shadow: 0 0 4px oklch(86.267% 0.23186 140.858 / 0.6);
+    transition: box-shadow 0.15s ease;
+  }
+
+  &:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 4px oklch(86.267% 0.23186 140.858 / 0.3);
+  }
+
+  &::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: oklch(86.267% 0.23186 140.858);
+    cursor: pointer;
+    border: none;
+  }
+}
+
+.mode-tick-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  opacity: 0.6;
+  padding: 0 4px;
+
+  span.active {
+    opacity: 1;
+    color: oklch(86.267% 0.23186 140.858);
+    font-weight: 600;
+  }
+}
+
+.mode-display {
+  font-size: 0.85rem;
+  margin: 0;
+
+  strong {
+    color: oklch(86.267% 0.23186 140.858);
+  }
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0;
+}
+
+// ── Player inputs ─────────────────────────────────────────────────────────────
+
+.players-section {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+// Two-on-two
+.two-on-two-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.team-box {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.team-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Brawl / Tournament
+.player-list-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.player-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+// Tournament player-count segmented buttons
+.player-count-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.size-btn {
+  min-width: 42px;
+  height: 38px;
+  padding: 0 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+
+  &:hover {
+    border-color: oklch(86.267% 0.23186 140.858 / 0.6);
+    background: oklch(86.267% 0.23186 140.858 / 0.08);
+  }
+
+  &.active-size {
+    border-color: oklch(86.267% 0.23186 140.858);
+    background: oklch(86.267% 0.23186 140.858 / 0.18);
+    color: oklch(86.267% 0.23186 140.858);
+  }
+
+  &:focus-visible {
+    outline: 2px solid oklch(86.267% 0.23186 140.858);
+    outline-offset: 2px;
+  }
+}
+
+.add-player-btn {
+  font-size: 0.8rem !important;
+}
+
+.player-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.player-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.player-field {
+  flex: 1;
+}
+
+.remove-player-btn {
+  flex-shrink: 0;
+  color: rgba(255, 100, 100, 0.8) !important;
+}
+
+// Validation
+.validation-msg {
+  font-size: 0.8rem;
+  color: #f28b82;
+  margin: 0.5rem 0 0 0;
+}
+
+// ── Dialog actions ────────────────────────────────────────────────────────────
+
+.fab-dialog-actions {
+  position: sticky;
+  bottom: 0;
+  background-color: #49454e;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  gap: 0.75rem;
+}
+
+// ── Responsive adjustments ────────────────────────────────────────────────────
+
+@media (max-width: 640px) {
+  .fab-dialog-layout {
+    flex-direction: column;
+    height: auto;
+    max-height: 72vh;
+    overflow-y: auto;
+  }
+
+  .hero-pool-panel {
+    width: 100%;
+    min-width: unset;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    max-height: 200px;
+  }
+
+  .fab-dialog-content {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .fab-dialog-title {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 641px) {
+  .hero-pool-panel {
+    width: 200px;
+    min-width: 180px;
+  }
+
+  .two-on-two-form {
+    flex-direction: column;
+  }
+}

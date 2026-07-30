@@ -1,0 +1,184 @@
+<h2 mat-dialog-title class="fab-dialog-title">⚔️ FAB Match Creator</h2>
+
+<mat-dialog-content class="fab-dialog-content">
+  <div class="fab-dialog-layout">
+
+    <!-- ════════════════════════════ LEFT: Hero Pool ════════════════════════════ -->
+    <aside class="hero-pool-panel" aria-label="Hero pool">
+      <div class="panel-header">
+        <span class="panel-title">Hero Pool</span>
+        <div class="pool-actions">
+          <button type="button" mat-stroked-button (click)="toggleAllHeroes(true)"
+                  class="pool-toggle-btn" aria-label="Enable all heroes">All</button>
+          <button type="button" mat-stroked-button (click)="toggleAllHeroes(false)"
+                  class="pool-toggle-btn" aria-label="Disable all heroes">None</button>
+          <span class="pool-count" aria-live="polite">{{ enabledHeroCount() }}/{{ allHeroes.length }}</span>
+        </div>
+      </div>
+
+      <ul class="hero-list" role="list">
+        @for (hero of allHeroes; track hero.id) {
+          <li class="hero-item" role="listitem">
+            <label class="hero-label"
+                   [matTooltip]="hero.description"
+                   matTooltipPosition="right"
+                   matTooltipShowDelay="400"
+                   [attr.aria-label]="hero.name + ', ' + hero.class + '. ' + hero.description">
+              <mat-checkbox
+                [checked]="heroEnabled()[hero.id]"
+                (change)="toggleHero(hero.id)"
+                color="primary">
+              </mat-checkbox>
+              <span class="hero-name">{{ hero.name }}</span>
+              <span class="hero-class-badge">{{ hero.class }}</span>
+            </label>
+          </li>
+        }
+      </ul>
+    </aside>
+
+    <!-- ═══════════════════════════ RIGHT: Game Setup ═══════════════════════════ -->
+    <section class="game-setup-panel">
+
+      <!-- Mode Slider -->
+      <div class="mode-selector" role="group" aria-labelledby="mode-label">
+        <p id="mode-label" class="section-label">Game Mode</p>
+        <div class="mode-slider-wrapper">
+          <input
+            type="range"
+            min="0"
+            max="2"
+            step="1"
+            class="mode-slider"
+            [value]="gameModeIndex()"
+            (input)="setGameMode($event)"
+            aria-label="Select game mode"
+            [attr.aria-valuetext]="gameModeLabel()"
+          />
+          <div class="mode-tick-labels" aria-hidden="true">
+            <span [class.active]="gameModeIndex() === 0">Two-On-Two</span>
+            <span [class.active]="gameModeIndex() === 1">Brawl</span>
+            <span [class.active]="gameModeIndex() === 2">Tournament</span>
+          </div>
+        </div>
+        <p class="mode-display" aria-live="polite">
+          Mode: <strong>{{ gameModeLabel() }}</strong>
+        </p>
+      </div>
+
+      <hr class="section-divider" />
+
+      <!-- ─── Player inputs (mode-dependent) ─── -->
+      <div class="players-section">
+
+        @switch (gameMode()) {
+
+          <!-- ── Two-On-Two ── -->
+          @case ('two-on-two') {
+            <form [formGroup]="twoOnTwoForm" class="two-on-two-form">
+              <div class="team-box">
+                <p class="team-label">⚔️ Team 1</p>
+                <mat-form-field appearance="fill" class="player-field">
+                  <mat-label>Player 1</mat-label>
+                  <input matInput formControlName="team1p1" autocomplete="off" />
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="player-field">
+                  <mat-label>Player 2</mat-label>
+                  <input matInput formControlName="team1p2" autocomplete="off" />
+                </mat-form-field>
+              </div>
+              <div class="team-box">
+                <p class="team-label">🛡️ Team 2</p>
+                <mat-form-field appearance="fill" class="player-field">
+                  <mat-label>Player 1</mat-label>
+                  <input matInput formControlName="team2p1" autocomplete="off" />
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="player-field">
+                  <mat-label>Player 2</mat-label>
+                  <input matInput formControlName="team2p2" autocomplete="off" />
+                </mat-form-field>
+              </div>
+            </form>
+          }
+
+          <!-- ── Brawl ── -->
+          @case ('brawl') {
+            <form [formGroup]="brawlForm" class="player-list-form">
+              <div class="player-list-header">
+                <span class="section-label">Players ({{ brawlPlayers.length }}/{{ MAX_PLAYERS }})</span>
+                @if (brawlPlayers.length < MAX_PLAYERS) {
+                  <button type="button" mat-stroked-button (click)="addBrawlPlayer()"
+                          aria-label="Add player" class="add-player-btn">
+                    + Add Player
+                  </button>
+                }
+              </div>
+              <div class="player-rows" formArrayName="players">
+                @for (ctrl of brawlPlayers.controls; track i; let i = $index) {
+                  <div class="player-row">
+                    <mat-form-field appearance="fill" class="player-field">
+                      <mat-label>Player {{ i + 1 }}</mat-label>
+                      <input matInput [formControl]="ctrl" autocomplete="off" />
+                    </mat-form-field>
+                    @if (i >= 2) {
+                      <button type="button" mat-icon-button (click)="removeBrawlPlayer(i)"
+                              [attr.aria-label]="'Remove player ' + (i + 1)" class="remove-player-btn">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            </form>
+          }
+
+          <!-- ── Tournament ── -->
+          @case ('tournament') {
+            <form [formGroup]="tournamentForm" class="player-list-form">
+              <!-- Segmented count selector -->
+              <div class="player-count-selector" role="group"
+                   aria-label="Select number of tournament players">
+                <span class="section-label">Players</span>
+                @for (size of TOURNAMENT_SIZES; track size) {
+                  <button type="button"
+                          class="size-btn"
+                          [class.active-size]="tournamentPlayers.length === size"
+                          (click)="setTournamentPlayerCount(size)"
+                          [attr.aria-pressed]="tournamentPlayers.length === size"
+                          [attr.aria-label]="size + ' players'">
+                    {{ size }}
+                  </button>
+                }
+              </div>
+              <!-- Player name fields -->
+              <div class="player-rows" formArrayName="players">
+                @for (ctrl of tournamentPlayers.controls; track i; let i = $index) {
+                  <div class="player-row">
+                    <mat-form-field appearance="fill" class="player-field">
+                      <mat-label>Player {{ i + 1 }}</mat-label>
+                      <input matInput [formControl]="ctrl" autocomplete="off" />
+                    </mat-form-field>
+                  </div>
+                }
+              </div>
+            </form>
+          }
+
+        }
+      </div>
+
+      @if (tooFewHeroesMsg()) {
+        <p class="validation-msg" role="alert">{{ tooFewHeroesMsg() }}</p>
+      }
+    </section>
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="fab-dialog-actions">
+  <button mat-button type="button" (click)="onCancel()">Nope, Never Mind</button>
+  <button mat-raised-button color="primary" type="button"
+          (click)="onSubmit()" [disabled]="!canSubmit()">
+    ⚔️ Create Match
+  </button>
+</mat-dialog-actions>
