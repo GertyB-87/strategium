@@ -28,6 +28,20 @@ import { FAB_TEAM_NAMES } from '../../data/fab_team_names';
 import { LocalStorageService } from '../../local-storage-service';
 
 const STORAGE_KEY = 'fabMatch';
+const INITIAL_ROSTER_STORAGE_KEY = 'fabMatchInitialRoster';
+
+interface FabInitialPlayerAssignment {
+  id: string;
+  name: string;
+  heroId: string;
+  heroName: string;
+}
+
+interface FabInitialRosterSnapshot {
+  matchId: string;
+  gameMode: FabMatch['gameMode'];
+  players: FabInitialPlayerAssignment[];
+}
 
 @Component({
   selector: 'app-fab-match',
@@ -47,6 +61,9 @@ export class FabMatchComponent implements OnInit {
   private readonly navConfig = inject(Router).getCurrentNavigation()?.extras.state?.[
     'fabMatchConfig'
   ] as FabMatchConfig | undefined;
+
+  private readonly shouldCreateNewMatch =
+    inject(Router).getCurrentNavigation()?.extras.state?.['createNewFabMatch'] === true;
 
   isPhone = signal(false);
   isTablet = signal(false);
@@ -152,16 +169,26 @@ export class FabMatchComponent implements OnInit {
     this.responsive.observe(Breakpoints.Handset).subscribe((r) => this.isPhone.set(r.matches));
     this.responsive.observe(Breakpoints.Tablet).subscribe((r) => this.isTablet.set(r.matches));
 
-    if (this.navConfig) {
-      const built = this.buildMatch(this.navConfig);
-      this.match.set(built);
-      this.storage.setItem(STORAGE_KEY, built);
+    const stored = this.storage.getItem<FabMatch>(STORAGE_KEY);
+
+    // Refreshes should reuse the existing match so player names/hero assignment stay stable.
+    if (stored && !this.shouldCreateNewMatch) {
+      this.match.set(stored);
+      this.ensureInitialRosterSnapshot(stored);
       return;
     }
 
-    const stored = this.storage.getItem<FabMatch>(STORAGE_KEY);
+    if (this.navConfig && this.shouldCreateNewMatch) {
+      const built = this.buildMatch(this.navConfig);
+      this.match.set(built);
+      this.storage.setItem(STORAGE_KEY, built);
+      this.persistInitialRosterSnapshot(built);
+      return;
+    }
+
     if (stored) {
       this.match.set(stored);
+      this.ensureInitialRosterSnapshot(stored);
       return;
     }
 
@@ -361,7 +388,6 @@ export class FabMatchComponent implements OnInit {
         const next = this.findMatch(tournament.rounds, match.nextWinnerMatchId);
         if (next) {
           next[match.nextWinnerSlot] = winner;
-          this.checkAndAutoResolveBye(next, tournament.rounds);
         }
       }
 
@@ -370,7 +396,6 @@ export class FabMatchComponent implements OnInit {
         const loserMatch = this.findMatch(tournament.rounds, match.nextLoserMatchId);
         if (loserMatch) {
           loserMatch[match.nextLoserSlot] = loser;
-          this.checkAndAutoResolveBye(loserMatch, tournament.rounds);
         }
       }
 
@@ -485,24 +510,6 @@ export class FabMatchComponent implements OnInit {
     }
   }
 
-  private checkAndAutoResolveBye(match: FabTournamentMatch, allRounds: FabTournamentRound[]): void {
-    if (
-      (match.player1 && !match.player2) ||
-      (!match.player1 && match.player2)
-    ) {
-      match.isBye = true;
-      match.winner = match.player1 ?? match.player2 ?? null;
-      // propagate this auto-win
-      if (match.winner && match.nextWinnerMatchId && match.nextWinnerSlot) {
-        const next = this.findMatch(allRounds, match.nextWinnerMatchId);
-        if (next) {
-          next[match.nextWinnerSlot] = match.winner;
-          this.checkAndAutoResolveBye(next, allRounds);
-        }
-      }
-    }
-  }
-
   private findMatch(rounds: FabTournamentRound[], id: string): FabTournamentMatch | null {
     for (const r of rounds) {
       const m = r.matches.find((x) => x.id === id);
@@ -542,6 +549,28 @@ export class FabMatchComponent implements OnInit {
       nextLoserMatchId,
       nextLoserSlot,
     };
+  }
+
+  private ensureInitialRosterSnapshot(match: FabMatch): void {
+    const existing = this.storage.getItem<FabInitialRosterSnapshot>(INITIAL_ROSTER_STORAGE_KEY);
+    if (!existing || existing.matchId !== match.id) {
+      this.persistInitialRosterSnapshot(match);
+    }
+  }
+
+  private persistInitialRosterSnapshot(match: FabMatch): void {
+    const snapshot: FabInitialRosterSnapshot = {
+      matchId: match.id,
+      gameMode: match.gameMode,
+      players: match.players.map((p) => ({
+        id: p.id,
+        name: p.name,
+        heroId: p.hero.id,
+        heroName: p.hero.name,
+      })),
+    };
+
+    this.storage.setItem(INITIAL_ROSTER_STORAGE_KEY, snapshot);
   }
 }
 

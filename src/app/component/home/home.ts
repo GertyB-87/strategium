@@ -60,7 +60,12 @@ export class HomeComponent {
 
     dialogRef.afterClosed().subscribe((result: FabMatchConfig | undefined) => {
       if (result) {
-        this.router.navigate(['fab-match'], { state: { fabMatchConfig: result } });
+        this.router.navigate(['fab-match'], {
+          state: {
+            fabMatchConfig: result,
+            createNewFabMatch: true,
+          },
+        });
       }
     });
   }
