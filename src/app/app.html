@@ -1,26 +1,20 @@
+<a class="skip-link" href="#main-content" (click)="$event.preventDefault(); mainContent.focus()">Skip to content</a>
 <header class="top-nav">
-    <nav class="nav-row"
-        class="main-nav-container" [ngClass]="{'is-phone': isPhone}">
-        <span
-            class="main-nav-app-logo" [ngClass]="{'is-phone': isPhone}"
-            aria-label="Cyberspace logo" (click)="router.navigate(['/'])" tabindex="0" role="link"
-            (keydown)="($event.key === 'Enter' || $event.key === ' ') && router.navigate(['/'])">
-            Strategium
-        </span>
-        <div
-            class="main-nav-menu-container" [ngClass]="{'is-phone': isPhone}">
-            <span (click)="router.navigate(['/'])" tabindex="0" role="link"
-                class="main-nav-menu-item" [ngClass]="{'is-phone': isPhone}">
-               Home
-            </span>
-            <span class="main-nav-menu-separator">|</span>
-            <span (click)="router.navigate(['/tabletop-match'])" tabindex="0" role="link"
-                class="main-nav-menu-item" [ngClass]="{'is-phone': isPhone}">
-                Tabletop Match
-            </span>
+    <nav class="main-nav-container" aria-label="Main navigation">
+        <a class="main-nav-app-logo" routerLink="/">Strategium</a>
+        <div class="main-nav-menu-container">
+            <a class="main-nav-menu-item" routerLink="/" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">Home</a>
+            <a class="main-nav-menu-item" routerLink="/tabletop-match" routerLinkActive="active"
+                ariaCurrentWhenActive="page">Tabletop Match</a>
+            <a class="main-nav-menu-item" routerLink="/fab-match" routerLinkActive="active"
+                ariaCurrentWhenActive="page">FAB Match</a>
         </div>
     </nav>
-    <hr style="border: none; border-top: 1px solid #222; margin: 0 0 5px 0; height: 0;" aria-hidden="true" />
 </header>
-
-<router-outlet />
+<main #mainContent id="main-content" tabindex="-1">
+    @if (storage.error(); as message) {
+        <p class="storage-warning" role="alert">{{ message }}</p>
+    }
+    <router-outlet (activate)="mainContent.focus()" />
+</main>

@@ -1,17 +1,19 @@
-create-tablet-match-dialog {
-
-    width: 85vw;
-    height: 85vh;
+h1 { font-size: 1.5rem; margin: 0 0 1.5rem; }
+.home-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 1rem;
+  max-width: 60rem;
 }
-.create-tabletop-match-dialog-panel .mat-mdc-dialog-container {
-  resize: both;
-  overflow: auto;
-    width: 85vw;
-    height: 85vh;
-    background: red;
+.open-dialog-btn {
+  min-height: 7rem;
+  height: auto;
+  padding: 1.5rem;
+  font-size: 1rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  background: #333;
+  border: 1px solid #666;
+  border-radius: 8px;
 }
-.create-tabletop-match-dialog {
-  border: 1px solid #ccc;
-  background: #fff;
-  /* ...other styles... */
-}
+.fab-btn { background: #252427; border-color: #80df53; }

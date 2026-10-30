@@ -1,4 +1,4 @@
-<h2 mat-dialog-title class="fab-dialog-title">⚔️ FAB Match Creator</h2>
+<h2 mat-dialog-title class="fab-dialog-title">FAB Match Creator</h2>
 
 <mat-dialog-content class="fab-dialog-content">
   <div class="fab-dialog-layout">
@@ -11,7 +11,7 @@
           <button type="button" mat-stroked-button (click)="toggleAllHeroes(true)"
                   class="pool-toggle-btn" aria-label="Enable all heroes">All</button>
           <button type="button" mat-stroked-button (click)="toggleAllHeroes(false)"
-                  class="pool-toggle-btn" aria-label="Disable all heroes">None</button>
+                  class="pool-toggle-btn" aria-label="None: disable all heroes">None</button>
           <span class="pool-count" aria-live="polite">{{ enabledHeroCount() }}/{{ allHeroes.length }}</span>
         </div>
       </div>
@@ -19,19 +19,19 @@
       <ul class="hero-list" role="list">
         @for (hero of allHeroes; track hero.id) {
           <li class="hero-item" role="listitem">
-            <label class="hero-label"
+            <div class="hero-label"
                    [matTooltip]="hero.description"
                    matTooltipPosition="right"
-                   matTooltipShowDelay="400"
-                   [attr.aria-label]="hero.name + ', ' + hero.class + '. ' + hero.description">
+                   matTooltipShowDelay="400">
               <mat-checkbox
                 [checked]="heroEnabled()[hero.id]"
                 (change)="toggleHero(hero.id)"
+                [aria-label]="hero.name + ', ' + hero.class + '. ' + hero.description"
                 color="primary">
+                <span class="hero-name">{{ hero.name }}</span>
+                <span class="hero-class-badge">{{ hero.class }}</span>
               </mat-checkbox>
-              <span class="hero-name">{{ hero.name }}</span>
-              <span class="hero-class-badge">{{ hero.class }}</span>
-            </label>
+            </div>
           </li>
         }
       </ul>
@@ -43,27 +43,12 @@
       <!-- Mode Slider -->
       <div class="mode-selector" role="group" aria-labelledby="mode-label">
         <p id="mode-label" class="section-label">Game Mode</p>
-        <div class="mode-slider-wrapper">
-          <input
-            type="range"
-            min="0"
-            max="2"
-            step="1"
-            class="mode-slider"
-            [value]="gameModeIndex()"
-            (input)="setGameMode($event)"
-            aria-label="Select game mode"
-            [attr.aria-valuetext]="gameModeLabel()"
-          />
-          <div class="mode-tick-labels" aria-hidden="true">
-            <span [class.active]="gameModeIndex() === 0">Two-On-Two</span>
-            <span [class.active]="gameModeIndex() === 1">Brawl</span>
-            <span [class.active]="gameModeIndex() === 2">Tournament</span>
-          </div>
-        </div>
-        <p class="mode-display" aria-live="polite">
-          Mode: <strong>{{ gameModeLabel() }}</strong>
-        </p>
+        <mat-button-toggle-group [value]="gameModeIndex()" (change)="setGameMode($event.value)"
+          aria-label="Game mode" class="mode-options">
+          <mat-button-toggle [value]="0">2v2</mat-button-toggle>
+          <mat-button-toggle [value]="1">Brawl</mat-button-toggle>
+          <mat-button-toggle [value]="2">Tournament</mat-button-toggle>
+        </mat-button-toggle-group>
       </div>
 
       <hr class="section-divider" />
@@ -80,22 +65,26 @@
                 <p class="team-label">⚔️ Team 1</p>
                 <mat-form-field appearance="fill" class="player-field">
                   <mat-label>Player 1</mat-label>
-                  <input matInput formControlName="team1p1" autocomplete="off" />
+                  <input matInput formControlName="team1p1" autocomplete="off" maxlength="80" />
+                  <mat-error>Enter a player name.</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="player-field">
                   <mat-label>Player 2</mat-label>
-                  <input matInput formControlName="team1p2" autocomplete="off" />
+                  <input matInput formControlName="team1p2" autocomplete="off" maxlength="80" />
+                  <mat-error>Enter a player name.</mat-error>
                 </mat-form-field>
               </div>
               <div class="team-box">
                 <p class="team-label">🛡️ Team 2</p>
                 <mat-form-field appearance="fill" class="player-field">
                   <mat-label>Player 1</mat-label>
-                  <input matInput formControlName="team2p1" autocomplete="off" />
+                  <input matInput formControlName="team2p1" autocomplete="off" maxlength="80" />
+                  <mat-error>Enter a player name.</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="player-field">
                   <mat-label>Player 2</mat-label>
-                  <input matInput formControlName="team2p2" autocomplete="off" />
+                  <input matInput formControlName="team2p2" autocomplete="off" maxlength="80" />
+                  <mat-error>Enter a player name.</mat-error>
                 </mat-form-field>
               </div>
             </form>
@@ -114,11 +103,12 @@
                 }
               </div>
               <div class="player-rows" formArrayName="players">
-                @for (ctrl of brawlPlayers.controls; track i; let i = $index) {
+                @for (ctrl of brawlPlayers.controls; track ctrl; let i = $index) {
                   <div class="player-row">
                     <mat-form-field appearance="fill" class="player-field">
                       <mat-label>Player {{ i + 1 }}</mat-label>
-                      <input matInput [formControl]="ctrl" autocomplete="off" />
+                      <input matInput [formControl]="ctrl" autocomplete="off" maxlength="80" />
+                      <mat-error>Enter a player name.</mat-error>
                     </mat-form-field>
                     @if (i >= 2) {
                       <button type="button" mat-icon-button (click)="removeBrawlPlayer(i)"
@@ -152,11 +142,12 @@
               </div>
               <!-- Player name fields -->
               <div class="player-rows" formArrayName="players">
-                @for (ctrl of tournamentPlayers.controls; track i; let i = $index) {
+                @for (ctrl of tournamentPlayers.controls; track ctrl; let i = $index) {
                   <div class="player-row">
                     <mat-form-field appearance="fill" class="player-field">
                       <mat-label>Player {{ i + 1 }}</mat-label>
-                      <input matInput [formControl]="ctrl" autocomplete="off" />
+                      <input matInput [formControl]="ctrl" autocomplete="off" maxlength="80" />
+                      <mat-error>Enter a player name.</mat-error>
                     </mat-form-field>
                   </div>
                 }
@@ -179,6 +170,6 @@
   <button mat-button type="button" (click)="onCancel()">Nope, Never Mind</button>
   <button mat-raised-button color="primary" type="button"
           (click)="onSubmit()" [disabled]="!canSubmit()">
-    ⚔️ Create Match
+    <mat-icon>add</mat-icon> Create Match
   </button>
 </mat-dialog-actions>

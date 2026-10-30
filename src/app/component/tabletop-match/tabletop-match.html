@@ -1,93 +1,66 @@
-
-<div class="current-time-overlay" [ngClass]="{'is-phone': isPhone}" aria-live="polite" aria-label="Current time">
-    {{ duration }}
-</div>
-<span class="match-name-title" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}">{{ match?.name }}</span>
-<p class="match-created-title" [ngClass]="{'is-phone': isPhone}">{{ match?.createdAt ? (match.createdAt | date:'yyyy-MM-dd
-    HH:mm':'UTC') : '' }}</p>
-<div class="round-display-container" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}" aria-label="Current round" (click)="changeRound()" tabindex="0" role="button"
-    aria-pressed="false">
-    <span class="round-display-label" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}">round</span>
-    <span class="round-display-value" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}" aria-live="polite">{{
-        match?.round }}</span>
-</div>
-<div class="players-wrapper" [ngClass]="{'is-phone': isPhone}" role="main" aria-label="Match players">
-    <div class="players-container" [ngClass]="{'is-phone': isPhone}" role="region" aria-label="Players information">
-        @for (player of match?.players; track playerIndex; let playerIndex = $index) {
-        <div class="player-card" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}" aria-label="Player {{ player.name }}">
-            <span class="player-name-label" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}" title="{{ player.name }}" aria-label="Player name: {{ player.name }}">{{
-                player.name }}</span>
-            <span class="player-faction-label" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}">{{
-                player.faction }}</span>
-            <div class="player-stats-wrapper" [ngClass]="{'is-phone': isPhone, 'multiplayer': (isLarge && numberOfPlayers > 4)}">
-                <div class="player-wrapper2" [ngClass]="{'is-phone': isPhone}" aria-label="Command Points">
-                    <button type="button" class="player-button2" [ngClass]="{'is-phone': isPhone}" aria-label="Decrease command points"
-                            (click)="changePlayerValue('commandPoints', playerIndex, -1)" tabindex="0">-</button>
-                    <div class="player-container2" [ngClass]="{'is-phone': isPhone}">
-                        <span class="player-label2" [ngClass]="{'multiplayer': numberOfPlayers > 4}">CP</span>
-                        <span class="player-value2" [ngClass]="{'multiplayer': numberOfPlayers > 4}" aria-live="polite">{{
-                            player.currentCommandPoints}}</span>
+@if (match(); as currentMatch) {
+    <header class="match-header">
+        <div class="match-heading">
+            <h1 class="match-name-title">{{ currentMatch.name }}</h1>
+            <p class="match-created-title">{{ currentMatch.createdAt | date:'yyyy-MM-dd HH:mm' }}</p>
+            <p class="current-time-overlay">{{ duration() }}</p>
+        </div>
+        <button type="button" class="round-display-container" (click)="changeRound()"
+            title="Advance to next round" aria-description="Advance to next round">
+            <span class="round-display-label">round</span>
+            <span class="round-display-value" aria-live="polite">{{ currentMatch.round }}</span>
+        </button>
+    </header>
+    <section class="players-container" aria-label="Match players">
+        @for (player of currentMatch.players; track player.id; let playerIndex = $index) {
+            <article class="player-card" [attr.aria-label]="'Player ' + player.name">
+                <h2 class="player-name-label">{{ player.name }}</h2>
+                <p class="player-faction-label">{{ player.faction }}</p>
+                <div class="player-stats-wrapper">
+                    <div class="player-wrapper2">
+                        <button type="button" class="player-button2"
+                            [attr.aria-label]="'Decrease command points for ' + player.name"
+                            [disabled]="player.currentCommandPoints === 0"
+                            (click)="changePlayerValue('commandPoints', playerIndex, -1)"><mat-icon>remove</mat-icon></button>
+                        <div class="player-container2">
+                            <span class="player-label2">CP</span>
+                            <span class="player-value2" aria-live="polite">{{ player.currentCommandPoints }}</span>
+                        </div>
+                        <button type="button" class="player-button2"
+                            [attr.aria-label]="'Increase command points for ' + player.name"
+                            (click)="changePlayerValue('commandPoints', playerIndex, 1)"><mat-icon>add</mat-icon></button>
                     </div>
-                    <button type="button" class="player-button2" [ngClass]="{'is-phone': isPhone}" aria-label="Increase command points"
-                            (click)="changePlayerValue('commandPoints', playerIndex, 1)" tabindex="0">+</button>
-                </div>
-                <div class="player-wrapper2" [ngClass]="{'is-phone': isPhone}" aria-label="Victory Points">
-                    <button type="button" class="player-button2" [ngClass]="{'is-phone': isPhone}" aria-label="Decrease command points"
-                        (click)="changePlayerValue('victoryPoints', playerIndex, -1)" tabindex="0">-</button>
-                    <div class="player-container2" [ngClass]="{'is-phone': isPhone}">
-                        <span class="player-label2" [ngClass]="{'multiplayer': numberOfPlayers > 4}">VP</span>
-                        <span class="player-value2" [ngClass]="{'multiplayer': numberOfPlayers > 4}" style="color: rgba(255, 0, 255, 0.888)" aria-live="polite">{{
-                            player.currentVictoryPoints }}</span>
+                    <div class="player-wrapper2">
+                        <button type="button" class="player-button2"
+                            [attr.aria-label]="'Decrease victory points for ' + player.name"
+                            [disabled]="player.currentVictoryPoints === 0"
+                            (click)="changePlayerValue('victoryPoints', playerIndex, -1)"><mat-icon>remove</mat-icon></button>
+                        <div class="player-container2">
+                            <span class="player-label2">VP</span>
+                            <span class="player-value2 victory-points" aria-live="polite">{{ player.currentVictoryPoints }}</span>
+                        </div>
+                        <button type="button" class="player-button2"
+                            [attr.aria-label]="'Increase victory points for ' + player.name"
+                            (click)="changePlayerValue('victoryPoints', playerIndex, 1)"><mat-icon>add</mat-icon></button>
                     </div>
-                    <button type="button" class="player-button2" [ngClass]="{'is-phone': isPhone}" aria-label="Increase command points"
-                        (click)="changePlayerValue('victoryPoints', playerIndex, 1)" tabindex="0">+</button>
                 </div>
-            </div>
-            @if (match?.oprDoctrines) {
-                <div class="player-doctrine-container" [ngClass]="{'is-phone': isPhone}" aria-label="Select doctrine for {{ player.name }}">
-                    <mat-select id="doctrine-{{playerIndex}}" class="doctrine-select-wrapper" [ngClass]="{'is-phone': isPhone}"
-                        aria-label="Select doctrine for {{ player.name }}" [(value)]="player.currentDoctrine" placeholder="Select a doctrine"
-                        [compareWith]="compareDoctrines" (selectionChange)="changePlayerDoctrine(playerIndex, $event)">
-                        <mat-label class="doctrine-select-label" [ngClass]="{'is-phone': isPhone}">Doctrine</mat-label>
-                        @for (doctrine of doctrinesList; track doctrine) {
-                        <mat-option [value]="doctrine">
-                            {{ doctrine.doctrine }}
-                        </mat-option>
+                @if (currentMatch.oprDoctrines) {
+                      <mat-select class="doctrine-select-wrapper" [aria-label]="'Doctrine for ' + player.name"
+                        [value]="player.currentDoctrine" placeholder="Select a doctrine" [compareWith]="compareDoctrines"
+                        (selectionChange)="changePlayerDoctrine(playerIndex, $event.value)">
+                        @for (doctrine of doctrinesList; track doctrine.doctrine) {
+                            <mat-option [value]="doctrine">{{ doctrine.doctrine }}</mat-option>
                         }
                     </mat-select>
-                    @if(false && player.currentDoctrine) {
-                        <!-- removed because of copyright concerns to show rules -->
-/*                     <button class="doctrine-info-button" aria-label="Info about {{ player.currentDoctrine.doctrine }}" (click)="openDoctrineInfo(player.currentDoctrine)" tabindex="0">
-                        INFO
-                    </button> */
-                    }
-                </div>
-            }
-        </div>
+                }
+            </article>
         }
-    </div>
-</div>
-<div class="match-footer-wrapper" role="region" aria-label="Match details" [ngClass]="{'is-phone': isPhone}">
-    <p class="match-footer-detail-label">Details: </p>
-    <p class="match-footer-label">status = </p>
-    <p class="match-footer-value">{{ match?.status }}</p>
-    <p class="match-footer-label">doctrines = </p>
-    <p class="match-footer-value">{{ match?.oprDoctrines }}</p>
-    <p class="match-footer-label">number of players = </p>
-    <p class="match-footer-value">{{ match?.players?.length }}</p>
-    <p class="match-footer-label">round = </p>
-    <p class="match-footer-value">{{ match?.round }}</p>
-    <p class="match-footer-label"> created = </p>
-    <p class="match-footer-value">{{ match?.createdAt ? (match.createdAt | date:'yyyy-MM-dd
-        HH:mm':'UTC') : '' }}</p>
-    <p class="match-footer-label"> last modified = </p>
-    <p class="match-footer-value">{{ match?.updatedAt ? (match.updatedAt | date:'yyyy-MM-dd
-        HH:mm':'UTC') : '' }}</p>
-</div>
-
-<a>
-    <button class="match-reset-button" aria-label="End Match" (click)="resetMatch()" tabindex="0"
-        [ngClass]="{'is-phone': isPhone || numberOfPlayers > 12}">
-        reset match
-    </button>
-</a>
+    </section>
+    <footer class="match-footer-wrapper">
+        <p>{{ currentMatch.status }} | {{ currentMatch.players.length }} players | doctrines: {{ currentMatch.oprDoctrines ? 'on' : 'off' }}</p>
+        <p>Last modified: {{ currentMatch.updatedAt | date:'yyyy-MM-dd HH:mm' }}</p>
+        <button type="button" class="match-reset-button" (click)="resetMatch()">
+            <mat-icon>restart_alt</mat-icon> Reset match
+        </button>
+    </footer>
+}

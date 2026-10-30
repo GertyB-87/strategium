@@ -1,51 +1,52 @@
+:host { display: block; min-height: 100dvh; }
+.top-nav { border-bottom: 1px solid #303030; }
 .main-nav-container {
-    font-family: 'Cyberspace', 'Orbitron', 'monospace';
-    font-size: 1.25rem;
-    letter-spacing: 0.1em;
-    color: #00ffe7;
-    text-shadow: 0 0 4px #00ffe7, 0 0 8px #222;
     display: flex;
-    position: relative;
-    gap: 5rem;
-    margin: 5px 0;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    padding: 0.5rem 1rem;
 }
-.main-nav-container.is-phone {
-    font-size: 0.8rem;
-    gap: 0.2rem;
-    padding-right: 10vh;
-    margin: 0.1rem 0.1rem 0.1rem 0.1rem ;
-}   
-
 .main-nav-app-logo {
-    font-family: 'Cyberspace', 'Orbitron', 'monospace';
-    font-size: 1.8rem;
-    letter-spacing: 0.1em;
-    color: hsl(138, 100%, 50%);
-    text-shadow: 0 0 4px #00ffe7, 0 0 8px #222;
     margin-right: auto;
-    cursor: pointer;
-}
-.main-nav-app-logo.is-phone {
-    font-size: 0.8rem;
-}  
-
-.main-nav-menu-container {
-    display: absolute;
-    width: 99%;
-    margin-left: 2vw;
-    padding: 0.9vh 0vh 0vh 0;
-
-}
-.main-nav-menu-container.is-phone {
-    gap: 0.5rem;
-    padding: 0vh 0vh 0vh 0;
-}
-.main-nav-menu-separator {
-    margin: 0 0.1rem;
-    color: lightgray;      
-}
-.main-nav-menu-item {
+    font-size: 1.8rem;
+    color: #00ff66;
+    text-shadow: 0 0 4px #00ffe7;
     text-decoration: none;
-    color: lightseagreen;
-    cursor: pointer;
+}
+.main-nav-menu-container { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; }
+.main-nav-menu-item {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    color: #59d9d3;
+    text-decoration: none;
+    &:hover, &.active {
+        color: #c8ff00;
+        text-decoration: underline;
+        text-underline-offset: 0.3rem;
+    }
+}
+main { padding: 1rem; max-width: 120rem; margin-inline: auto; }
+.skip-link {
+    position: fixed;
+    top: 0;
+    left: 1rem;
+    z-index: 1000;
+    padding: 0.75rem;
+    background: #111;
+    transform: translateY(-120%);
+    &:focus { transform: translateY(0); }
+}
+.storage-warning {
+    color: #ffda80;
+    border-left: 3px solid currentColor;
+    padding: 0.75rem;
+    background: #252015;
+}
+@media (max-width: 40rem) {
+    .main-nav-app-logo { font-size: 1.4rem; }
+    .main-nav-menu-container { gap: 0.25rem 0.75rem; font-size: 0.8rem; }
+    .main-nav-container { padding: 0.5rem 0.75rem; }
+    main { padding: 0.75rem; }
 }

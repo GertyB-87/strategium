@@ -1,12 +1,12 @@
 <ng-template #matchCard let-id="id">
   @let m = liveMatch(id);
   @if (m) {
-    <div class="bracket-match"
+    <article class="bracket-match"
          [class.is-bye]="m.isBye"
          [class.has-winner]="m.winner"
          [attr.aria-label]="(m.player1?.name ?? 'TBD') + ' vs ' + (m.player2?.name ?? 'TBD')">
       <!-- Player 1 -->
-      <div class="match-player" [class.winner]="m.winner?.id === m.player1?.id">
+      <div class="match-player" [class.winner]="m.winner && m.winner.id === m.player1?.id">
         <span class="player-info">
           <span class="p-name">{{ m.player1?.name ?? (m.isBye ? 'BYE' : 'TBD') }}</span>
           @if (m.player1) {
@@ -16,18 +16,18 @@
         @if (isMatchReady(m)) {
           <button type="button" class="pick-btn"
                   (click)="pickWinner(id, 'player1')"
-                  aria-label="Pick {{ m.player1?.name }} as winner">⭐</button>
+                  matTooltip="Pick winner" aria-label="Pick {{ m.player1?.name }} as winner"><mat-icon>star</mat-icon></button>
         }
-        @if (m.winner?.id === m.player1?.id) {
+        @if (m.winner && m.winner.id === m.player1?.id && !m.isBye) {
           <button type="button" class="win-icon-btn"
                   (click)="revokeWinner(id)"
                   matTooltip="Revoke winner"
-                  aria-label="Revoke winner for this match">🏆</button>
+                  aria-label="Revoke winner for this match"><mat-icon>emoji_events</mat-icon></button>
         }
       </div>
       <div class="match-divider"></div>
       <!-- Player 2 -->
-      <div class="match-player" [class.winner]="m.winner?.id === m.player2?.id">
+      <div class="match-player" [class.winner]="m.winner && m.winner.id === m.player2?.id">
         <span class="player-info">
           <span class="p-name">{{ m.player2?.name ?? (m.isBye ? 'BYE' : 'TBD') }}</span>
           @if (m.player2) {
@@ -37,39 +37,39 @@
         @if (isMatchReady(m)) {
           <button type="button" class="pick-btn"
                   (click)="pickWinner(id, 'player2')"
-                  aria-label="Pick {{ m.player2?.name }} as winner">⭐</button>
+                  matTooltip="Pick winner" aria-label="Pick {{ m.player2?.name }} as winner"><mat-icon>star</mat-icon></button>
         }
-        @if (m.winner?.id === m.player2?.id) {
+        @if (m.winner && m.winner.id === m.player2?.id && !m.isBye) {
           <button type="button" class="win-icon-btn"
                   (click)="revokeWinner(id)"
                   matTooltip="Revoke winner"
-                  aria-label="Revoke winner for this match">🏆</button>
+                  aria-label="Revoke winner for this match"><mat-icon>emoji_events</mat-icon></button>
         }
       </div>
-    </div>
+    </article>
   }
 </ng-template>
 
 <!-- ═══════════════════════════════════════════════════════════════════════════ -->
 
 @if (match()) {
-  <div class="fab-match-root" [class.is-phone]="isPhone()">
+  <div class="fab-match-root">
 
     <!-- Header -->
     <header class="match-header">
-      <span class="match-mode-label">{{ match()?.gameMode | uppercase }}</span>
+      <h1 class="match-mode-label">{{ match()?.gameMode | uppercase }}</h1>
       <button type="button" mat-stroked-button class="home-btn" (click)="goHome()"
-              aria-label="Back to home">← Home</button>
+              aria-label="Back to home"><mat-icon>home</mat-icon> Home</button>
     </header>
 
     <!-- ════════════════ TWO-ON-TWO ════════════════ -->
     @if (match()?.gameMode === 'two-on-two') {
-      <main class="two-on-two-view" role="main" aria-label="Two-on-Two match">
+      <section class="two-on-two-view" aria-label="Two-on-Two match">
         @for (team of match()?.teams; track team.id) {
-          <div class="team-card" [class.starting-team]="team.isStartingTeam"
+          <article class="team-card" [class.starting-team]="team.isStartingTeam"
                [attr.aria-label]="team.name + (team.isStartingTeam ? ', starting team' : '')">
             @if (team.isStartingTeam) {
-              <div class="starting-badge" aria-live="polite">🚀 Starting Team</div>
+              <div class="starting-badge">Starting Team</div>
             }
             <h2 class="team-name">{{ team.name }}</h2>
             <div class="team-players">
@@ -81,14 +81,14 @@
                 </div>
               }
             </div>
-          </div>
+          </article>
         }
-      </main>
+      </section>
     }
 
     <!-- ════════════════ BRAWL ════════════════ -->
     @if (match()?.gameMode === 'brawl') {
-      <main class="brawl-view" role="main" aria-label="Brawl match">
+      <section class="brawl-view" aria-label="Brawl match">
         <h2 class="brawl-title">Free-For-All Chaos</h2>
         <div class="brawl-grid">
           @for (player of match()?.players; track player.id) {
@@ -99,24 +99,23 @@
             </div>
           }
         </div>
-      </main>
+      </section>
     }
 
     <!-- ════════════════ TOURNAMENT ════════════════ -->
     @if (match()?.gameMode === 'tournament') {
-      <main class="tournament-view" role="main" aria-label="Tournament bracket">
+      <section class="tournament-view" aria-label="Tournament bracket">
 
         @if (allMatchesComplete()) {
           <div class="rankings-trigger-row">
             <button type="button" mat-raised-button color="primary"
-                    class="rankings-btn" (click)="openRankings()"
-                    aria-label="Show tournament rankings">
-              🏅 Show Rankings
+                    class="rankings-btn" (click)="openRankings()">
+              <mat-icon>leaderboard</mat-icon> Show Rankings
             </button>
           </div>
         }
 
-        <div class="bracket-scroll-wrapper">
+        <div class="bracket-scroll-wrapper" tabindex="0" role="region" aria-label="Tournament bracket, horizontally scrollable">
           <div class="bracket-main">
 
             <!-- LEFT side -->
@@ -139,7 +138,7 @@
 
             <!-- CENTER: Final -->
             <div class="bracket-center">
-              <div class="round-label center-label">⚔️ Final</div>
+              <div class="round-label center-label">Final</div>
               @if (finalMatchId()) {
                 <div class="match-group final-group">
                   <ng-container [ngTemplateOutlet]="matchCard"
@@ -173,10 +172,10 @@
         <!-- Consolation bracket -->
         @if (consolationRounds().length > 0) {
           <section class="consolation-section" aria-label="Consolation bracket">
-            <h3 class="consolation-title">
+            <h2 class="consolation-title">
               🥉 Battle for the Remaining Glory
               <span class="consolation-sub">(They're not losers, they're special. Kind of.)</span>
-            </h3>
+            </h2>
             <div class="consolation-rounds">
               @for (round of consolationRounds(); track round.id) {
                 <div class="consolation-round">
@@ -194,7 +193,7 @@
           </section>
         }
 
-      </main>
+      </section>
     }
 
   </div><!-- /.fab-match-root -->

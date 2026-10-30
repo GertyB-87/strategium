@@ -1,59 +1,52 @@
-<h2 mat-dialog-title class="dialog-title" [ngClass]="{'is-phone': isPhone}">TableTop Match Creator</h2>
-<mat-dialog-content class="create-tabletop-match-dialog" style="background-color: #252427;">
-    <form [formGroup]="matchForm" (ngSubmit)="onSubmit()"  class="create-tabletop-match-dialog">
-        <p><i>Create new Match!</i></p>
-
-        <mat-form-field appearance="fill" style="width: 100%; ">
+<h2 mat-dialog-title class="dialog-title">Tabletop Match Creator</h2>
+<form [formGroup]="matchForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+        <mat-form-field appearance="fill" class="match-name-field">
             <mat-label>Match Name</mat-label>
-            <input matInput formControlName="name"/>
+            <input matInput formControlName="name" maxlength="120" />
+            <mat-error>Enter a match name (up to 120 characters).</mat-error>
         </mat-form-field>
-        <div>
-            <mat-label for="oprDoctrinesCheckbox" style="margin-right: 8px;">Use Doctrines</mat-label>
-            <input type="checkbox" formControlName="oprDoctrines" id="oprDoctrinesCheckbox"/>
-        </div>
-        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 8px;">
-            <h2 style="margin: 0;">Players</h2>
-            <button type="button" (click)="addPlayer()" aria-label="Add player" style="padding: 5px; display: flex; align-items: center; gap: 8px;width: 100px; margin-right: 0.5vw;">
-                <span>ADD player</span>
+        <mat-checkbox formControlName="oprDoctrines">Use Doctrines</mat-checkbox>
+        <div class="players-heading">
+            <h3>Players</h3>
+            <button mat-stroked-button type="button" (click)="addPlayer()">
+                <mat-icon>person_add</mat-icon> Add player
             </button>
         </div>
-        <div formArrayName="players" clas="players-wrapper">
-            @for (player of matchForm.controls.players.controls; track playerIndex; let playerIndex = $index) {
-                <div [formGroupName]="playerIndex" class="players-container"  [ngClass]="{'is-phone': isPhone}">
-                    <mat-form-field appearance="fill" floatLabel="always" class="players-name-field">
-                        <mat-label>Player Name</mat-label>
-                        <input matInput formControlName="name" />
+        <div formArrayName="players" class="players-wrapper">
+            @for (player of matchForm.controls.players.controls; track player; let playerIndex = $index) {
+                <div [formGroupName]="playerIndex" class="players-container">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Player {{ playerIndex + 1 }} Name</mat-label>
+                        <input matInput formControlName="name" maxlength="80" />
+                        <mat-error>Enter a player name.</mat-error>
                     </mat-form-field>
-                    <mat-form-field appearance="fill" class="players-faction-select">
+                    <mat-form-field appearance="fill">
                         <mat-label>Faction / Character</mat-label>
-                        <input matInput formControlName="faction" [matAutocomplete]="factionAuto" autocomplete="off" />
+                        <input matInput formControlName="faction" [matAutocomplete]="factionAuto" autocomplete="off" maxlength="80" />
                         <mat-autocomplete #factionAuto="matAutocomplete">
                             @for (faction of FUNNY_FACTIONS; track faction) {
                                 <mat-option [value]="faction">{{ faction }}</mat-option>
                             }
                         </mat-autocomplete>
+                        <mat-error>Enter a faction or character.</mat-error>
                     </mat-form-field>
-                    <mat-form-field appearance="fill" floatLabel="always" class="players-cp-field">
+                    <mat-form-field appearance="fill" class="players-cp-field">
                         <mat-label>CP</mat-label>
-                        <input matInput type="number"
-                            (input)="updateCommandPoints(playerIndex, $any($event.target).value)" />
+                        <input matInput type="number" formControlName="initialCommandPoints" min="0" step="1" />
+                        <mat-error>Use a whole number, zero or more.</mat-error>
                     </mat-form-field>
-                    <div class="players-remove-button-wrapper" [ngClass]="{'is-phone': isPhone}">
-                        <button type="button"
-                            (click)="removePlayer(playerIndex)"
-                            class="players-remove-button" [ngClass]="{'is-phone': isPhone}"
-                            aria-label="Remove player">
-                            <span class="players-remove-button-label">
-                                    REMOVE
-                            </span>
-                        </button>
-                    </div>
+                    <button mat-icon-button type="button" (click)="removePlayer(playerIndex)"
+                        [disabled]="matchForm.controls.players.length <= 2"
+                        [attr.aria-label]="'Remove player ' + (playerIndex + 1)" matTooltip="Remove player">
+                        <mat-icon>person_remove</mat-icon>
+                    </button>
                 </div>
             }
         </div>
-        <mat-dialog-actions style="position: absolute; bottom: 0; background-color: #49454e; left: 0; width: 100%; display: flex; justify-content: flex-end; padding: 16px 24px; box-shadow: 0 -2px 8px rgba(0,0,0,0.04); z-index: 2;">
-            <button mat-button (click)="onNoClick()" type="button" aria-label="Cancel">Fuck Off</button>
-            <button mat-raised-button color="primary" type="submit" style="margin-left: 12px;">Create Match</button>
-        </mat-dialog-actions>
-    </form>        
-</mat-dialog-content>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button (click)="onNoClick()" type="button">Never mind</button>
+        <button mat-raised-button type="submit" [disabled]="matchForm.invalid">Create Match</button>
+    </mat-dialog-actions>
+</form>

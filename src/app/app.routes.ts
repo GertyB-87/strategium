@@ -1,23 +1,25 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './component/home/home';
-import { TabletopMatchComponent } from './component/tabletop-match/tabletop-match';
-import { FabMatchComponent } from './component/fab-match/fab-match';
 
 export const routes: Routes = [
     {
     path: '',
-    component: HomeComponent
+    loadComponent: () => import('./component/home/home').then(module => module.HomeComponent),
+    title: 'Strategium',
     },
     {
     path: 'tabletop-match',
-    component: TabletopMatchComponent
+    loadComponent: () => import('./component/tabletop-match/tabletop-match').then(module => module.TabletopMatchComponent),
+    title: 'Tabletop Match | Strategium',
     },
     {
     path: 'fab-match',
-    component: FabMatchComponent
+    loadComponent: () => import('./component/fab-match/fab-match').then(module => module.FabMatchComponent),
+    title: 'FAB Match | Strategium',
     },
     {
     path: 'home',
-    component: HomeComponent
-    }
+    redirectTo: '',
+    pathMatch: 'full',
+    },
+    { path: '**', redirectTo: '' },
 ];

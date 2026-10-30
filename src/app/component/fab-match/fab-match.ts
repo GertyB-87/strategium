@@ -7,7 +7,6 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NgTemplateOutlet, UpperCasePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,6 +22,8 @@ import {
   FabTournamentMatch,
   FabTournamentRound,
   FabTournamentState,
+  isFabMatch,
+  isFabMatchConfig,
 } from '../../data/fab-match';
 import { FAB_TEAM_NAMES } from '../../data/fab_team_names';
 import { LocalStorageService } from '../../local-storage-service';
@@ -53,20 +54,19 @@ interface FabInitialRosterSnapshot {
 export class FabMatchComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly storage = inject(LocalStorageService);
-  private readonly responsive = inject(BreakpointObserver);
   private readonly dialog = inject(MatDialog);
 
   // Must be captured here (during construction) — getCurrentNavigation() returns
   // null by the time ngOnInit runs because the navigation is already complete.
-  private readonly navConfig = inject(Router).getCurrentNavigation()?.extras.state?.[
+  private readonly navConfig = this.router.currentNavigation()?.extras.state?.[
     'fabMatchConfig'
   ] as FabMatchConfig | undefined;
 
   private readonly shouldCreateNewMatch =
-    inject(Router).getCurrentNavigation()?.extras.state?.['createNewFabMatch'] === true;
+    this.router.currentNavigation()?.extras.state?.['createNewFabMatch'] === true;
 
-  isPhone = signal(false);
-  isTablet = signal(false);
+  private readonly requestedMatchId: unknown =
+    this.router.currentNavigation()?.extras.state?.['fabMatchId'];
 
   match = signal<FabMatch | null>(null);
 
@@ -160,25 +160,30 @@ export class FabMatchComponent implements OnInit {
       push(8, r5.matches[1]?.loser);
     }
 
-    return result;
+    const winnerRounds = t.rounds.filter(round => !round.isConsolation);
+    for (const [index, round] of winnerRounds.slice(0, -3).entries()) {
+      const place = 2 ** (winnerRounds.length - index - 1) + 1;
+      for (const match of round.matches) {
+        if (match.loser) result.push({ place, player: match.loser, tied: true });
+      }
+    }
+    return result.sort((first, second) => first.place - second.place);
   });
 
   // ── Lifecycle ──────────────────────────────────────────────────────────────
 
   ngOnInit(): void {
-    this.responsive.observe(Breakpoints.Handset).subscribe((r) => this.isPhone.set(r.matches));
-    this.responsive.observe(Breakpoints.Tablet).subscribe((r) => this.isTablet.set(r.matches));
-
-    const stored = this.storage.getItem<FabMatch>(STORAGE_KEY);
+    const stored = this.storage.getItem<unknown>(STORAGE_KEY);
 
     // Refreshes should reuse the existing match so player names/hero assignment stay stable.
-    if (stored && !this.shouldCreateNewMatch) {
+    if (isFabMatch(stored) && (!this.shouldCreateNewMatch
+      || typeof this.requestedMatchId !== 'string' || stored.id === this.requestedMatchId)) {
       this.match.set(stored);
       this.ensureInitialRosterSnapshot(stored);
       return;
     }
 
-    if (this.navConfig && this.shouldCreateNewMatch) {
+    if (isFabMatchConfig(this.navConfig) && this.shouldCreateNewMatch) {
       const built = this.buildMatch(this.navConfig);
       this.match.set(built);
       this.storage.setItem(STORAGE_KEY, built);
@@ -186,13 +191,7 @@ export class FabMatchComponent implements OnInit {
       return;
     }
 
-    if (stored) {
-      this.match.set(stored);
-      this.ensureInitialRosterSnapshot(stored);
-      return;
-    }
-
-    this.router.navigate(['/']);
+    void this.router.navigate(['/']);
   }
 
   // ── Match builder ──────────────────────────────────────────────────────────
@@ -208,7 +207,11 @@ export class FabMatchComponent implements OnInit {
       return { id: uuid(), name, hero };
     });
 
-    const match: FabMatch = { id: uuid(), gameMode: config.gameMode, players };
+    const match: FabMatch = {
+      id: typeof this.requestedMatchId === 'string' ? this.requestedMatchId : uuid(),
+      gameMode: config.gameMode,
+      players,
+    };
 
     if (config.gameMode === 'two-on-two') {
       match.teams = this.buildTeams(players);
@@ -375,7 +378,7 @@ export class FabMatchComponent implements OnInit {
 
       const tournament: FabTournamentState = structuredClone(m.tournament);
       const match = this.findMatch(tournament.rounds, matchId);
-      if (!match || match.winner) return m;
+      if (!match || !this.isMatchReady(match)) return m;
 
       const winner = match[slot];
       if (!winner) return m;
@@ -399,6 +402,8 @@ export class FabMatchComponent implements OnInit {
         }
       }
 
+      this.propagateByes(tournament.rounds.filter(round => !round.isConsolation));
+
       // Check for champion
       const lastWinnerRound = tournament.rounds
         .filter((r) => !r.isConsolation)
@@ -420,6 +425,8 @@ export class FabMatchComponent implements OnInit {
   revokeWinner(matchId: string): void {
     this.match.update((m) => {
       if (!m?.tournament) return m;
+      const match = this.findMatch(m.tournament.rounds, matchId);
+      if (!match?.winner || match.isBye) return m;
 
       const tournament: FabTournamentState = structuredClone(m.tournament);
       this.doRevokeWinner(tournament.rounds, matchId);
@@ -487,24 +494,18 @@ export class FabMatchComponent implements OnInit {
   // ── Helpers ────────────────────────────────────────────────────────────────
 
   private propagateByes(rounds: FabTournamentRound[]): void {
-    const propagated = new Set<string>();
-    let changed = true;
-    while (changed) {
-      changed = false;
-      for (const round of rounds) {
-        for (const match of round.matches) {
-          if (match.winner && match.nextWinnerMatchId && !propagated.has(match.id)) {
-            const next = this.findMatch(rounds, match.nextWinnerMatchId);
-            if (next && match.nextWinnerSlot) {
-              next[match.nextWinnerSlot] = match.winner;
-              propagated.add(match.id);
-              if (next.player1 && !next.player2 || !next.player1 && next.player2) {
-                next.isBye = true;
-                next.winner = next.player1 ?? next.player2 ?? null;
-                changed = true;
-              }
-            }
-          }
+    for (let roundIndex = 1; roundIndex < rounds.length; roundIndex++) {
+      const previous = rounds[roundIndex - 1].matches;
+      for (const match of rounds[roundIndex].matches) {
+        if (match.winner) continue;
+        const feeders = previous.filter(candidate => candidate.nextWinnerMatchId === match.id);
+        if (feeders.length !== 2 || !feeders.every(feeder => feeder.winner || feeder.isBye)) continue;
+        for (const feeder of feeders) {
+          if (feeder.nextWinnerSlot) match[feeder.nextWinnerSlot] = feeder.winner;
+        }
+        if (!match.player1 || !match.player2) {
+          match.isBye = true;
+          match.winner = match.player1 ?? match.player2;
         }
       }
     }

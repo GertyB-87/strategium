@@ -1,82 +1,84 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
+@use '@fontsource/orbitron/latin-400.css';
+@use '@fontsource/orbitron/latin-600.css';
+@use '@fontsource/orbitron/latin-700.css';
+@use '@fontsource/material-icons/400.css' as material-icons;
 html {
-  height: 97%;
-  width: 100%;
-  /* Force a dark color scheme for the entire app */
+  min-height: 100%;
   color-scheme: dark;
   @include mat.theme(
     (
       color: mat.$violet-palette,
-      typography: Roboto,
+      typography: Orbitron,
       density: 0
     )
   );
 }
 
 body {
-  color-scheme: dark;
   background-color: #0b0b0b;
-  color: #e6e6e6;
-  font: "Cyberspace", "Orbitron", "monospace";
-
-  /* Reset the user agent margin and prevent horizontal overflow */
+  color: #a4ff70;
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  line-height: 1.5;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  overflow-x: hidden;
-
-  /* Use dynamic viewport units on mobile and fallback to 100vh */
-  //min-height: 100dvh;/*  */
-  //min-height: 100vh;/*  */
-}
-.main-body {
-  box-sizing: border-box;
-  width: 100%;
-  //min-height: 100dvh;
-  //min-height: 100vh; /* fallback */
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 *,
 *::before,
 *::after {
-  font-family: "Cyberspace", "Orbitron", "monospace" !important;
-  color: oklch(86.267% 0.23186 140.858);
+  box-sizing: border-box;
+  letter-spacing: 0;
 }
-/* You can add global styles to this file, and also import other style files */
-.create-tabletop-match-dialog-panel {
-  resize: both;
-  //overflow: auto;
-  width: 90vw !important;
-  //border: 1px solid greenyellow;
-  max-width: 90vw; // width: 1200px;
-  height: 85vh;
+button, input, select, textarea { font: inherit; }
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: 400;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  font-feature-settings: 'liga';
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+}
+button, a, input, select, textarea {
+  touch-action: manipulation;
+}
+:focus-visible {
+  outline: 2px solid #c8ff00;
+  outline-offset: 3px;
+}
+:root {
+  --app-accent: #a4ff70;
+  --app-muted: #b0b0b0;
+  --app-surface: #252427;
+}
+.create-tabletop-match-dialog-panel,
+.create-fab-match-dialog-panel {
+  width: min(70rem, calc(100vw - 1rem)) !important;
+  .mat-mdc-dialog-surface {
+    max-height: calc(100dvh - 1rem);
+    border-radius: 8px;
+  }
+  .mat-mdc-dialog-content {
+    min-height: 0;
+    max-height: none;
+    overflow: auto;
+  }
 }
 .cdk-overlay-pane.mat-mdc-dialog-panel {
-  //background-color: black;
-  max-width: 90vw !important; /* Example: Make it 90% of viewport width */
-  /* min-width: 300px !important; */ /* Or set a min-width */
+  max-width: calc(100vw - 1rem) !important;
+  max-height: calc(100dvh - 1rem);
 }
-
-/* FAB match creator dialog */
-.create-fab-match-dialog-panel {
-  width: 90vw !important;
-  max-width: 1100px !important;
-  height: 85vh;
-}
-
-.create-fab-match-dialog-panel .mat-mdc-dialog-container {
-  height: 85vh;
-  overflow: hidden;
-}
-.mat-mdc-dialog-container {
-  resize: both;
-  //overflow: auto;
- // width: 90vw !important;
-  //max-width: 90vw; // width: 1200px;
-  //height: 85vh;/*  */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

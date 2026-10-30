@@ -34,17 +34,21 @@
               "src/styles.scss"
             ],
             "outputPath": {
-              "base": "dist/project-x",
+              "base": "dist/strategium",
               "browser": ""
             }
           },
           "configurations": {
             "production": {
               "outputPath": {
-                "base": "/projects/project-x-backend/wwwroot",
+                "base": "dist/strategium",
                 "browser": ""
               },
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": false
+              },
               "budgets": [
                 {
                   "type": "initial",
@@ -64,7 +68,7 @@
               "extractLicenses": false,
               "sourceMap": true,
               "outputPath": {
-                "base": "dist/project-x",
+                "base": "dist/strategium",
                 "browser": ""
               }
             }

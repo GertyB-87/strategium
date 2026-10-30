@@ -9,8 +9,8 @@ export interface TableTopPlayer {
     initialCommandPoints: number;
     currentCommandPoints: number;
     faction: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: Date | string;
+    updatedAt: Date | string;
     notes?: string;
     currentDoctrine?: Doctrine;
 }
